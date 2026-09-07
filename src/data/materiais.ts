@@ -111,7 +111,37 @@ export const materiais: Material[] = [
     capaUrl: receitas80Capa.url,
     arquivoUrl: receitas80Pdf.url,
     arquivoTipo: "PDF",
+  {
+    id: "mt-100-receitas-fit",
+    nome: "100 Receitas Fit",
+    categoria: "Receitas",
+    paginas: 66,
+    capaUrl: receitas100Capa.url,
+    arquivoUrl: receitas100Pdf.url,
+    arquivoTipo: "PDF",
     publicado: true,
+  },
+  {
+    id: "mt-500-receitas-low-carb",
+    nome: "500 Receitas Low Carb",
+    categoria: "Receitas",
+    paginas: 308,
+    capaUrl: receitas500Capa.url,
+    arquivoUrl: receitas500Pdf.url,
+    arquivoTipo: "PDF",
+    publicado: true,
+  },
+  {
+    // Arquivo enviado contém apenas 3 páginas de apresentação com link externo.
+    // Mantido despublicado até o material completo ser enviado.
+    id: "mt-300-receitas-anabolicas",
+    nome: "300 Receitas Anabólicas",
+    categoria: "Receitas",
+    paginas: 3,
+    capaUrl: receitas300Capa.url,
+    arquivoUrl: receitas300Pdf.url,
+    arquivoTipo: "PDF",
+    publicado: false,
   },
 ];
 
