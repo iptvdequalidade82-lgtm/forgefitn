@@ -18,7 +18,7 @@ import { ExerciseCard } from "@/components/forge/ExerciseCard";
 import { ExerciseModal } from "@/components/forge/ExerciseModal";
 import { AddToScheduleDialog } from "@/components/forge/AddToScheduleDialog";
 
-type Busca = { categoria?: string };
+type Busca = { categoria?: string | undefined };
 
 export const Route = createFileRoute("/exercicios")({
   validateSearch: (s: Record<string, unknown>): Busca => ({

@@ -44,9 +44,9 @@ export function Thumbnail({
 }
 
 export type PlayerFonte = {
-  gifUrl?: string;
-  videoUrl?: string;
-  thumbnailUrl?: string;
+  gifUrl?: string | undefined;
+  videoUrl?: string | undefined;
+  thumbnailUrl?: string | undefined;
 };
 
 /**

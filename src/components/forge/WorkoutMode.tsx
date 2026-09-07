@@ -54,22 +54,11 @@ export function WorkoutMode({
           if (!v) setConfirmarSaida(true);
         }}
       >
-        <DialogContent
-          showCloseButton={false}
-          className="max-h-[95vh] overflow-y-auto sm:max-w-2xl"
-        >
-          <div className="flex items-center justify-between gap-3">
+        <DialogContent className="max-h-[95vh] overflow-y-auto sm:max-w-2xl">
+          <div className="flex items-center justify-between gap-3 pr-6">
             <DialogTitle className="font-display text-xl uppercase">
               Modo treino — {nomeDia}
             </DialogTitle>
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="Sair do modo treino"
-              onClick={() => setConfirmarSaida(true)}
-            >
-              <X className="h-5 w-5" />
-            </Button>
           </div>
 
           <div className="space-y-1">
