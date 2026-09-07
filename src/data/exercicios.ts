@@ -492,6 +492,10 @@ import tricepsPatadaUnilateralComHalteresNoBancoGif from "@/assets/exercicios/tr
 import tricepsPatadaUnilateralComHalteresNoBancoJpg from "@/assets/exercicios/triceps-patada-unilateral-com-halteres-no-banco.jpg.asset.json";
 import tricepsPatadaComHalteresEmPeGif from "@/assets/exercicios/triceps-patada-com-halteres-em-pe.gif.asset.json";
 import tricepsPatadaComHalteresEmPeJpg from "@/assets/exercicios/triceps-patada-com-halteres-em-pe.jpg.asset.json";
+import tricepsExtBilateralDeitadoGif from "@/assets/exercicios/triceps-extensao-bilateral-com-halteres-deitado.gif.asset.json";
+import tricepsExtBilateralDeitadoJpg from "@/assets/exercicios/triceps-extensao-bilateral-com-halteres-deitado.jpg.asset.json";
+import tricepsUniSupinadaPoliaGif from "@/assets/exercicios/triceps-unilateral-pegada-supinada-na-polia.gif.asset.json";
+import tricepsUniSupinadaPoliaJpg from "@/assets/exercicios/triceps-unilateral-pegada-supinada-na-polia.jpg.asset.json";
 
 export type Exercicio = {
   id: string;
