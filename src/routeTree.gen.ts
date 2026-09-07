@@ -10,10 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
 import { Route as DesafioRouteImport } from './routes/desafio'
+import { Route as DownloadsRouteImport } from './routes/downloads'
 import { Route as ExerciciosRouteImport } from './routes/exercicios'
+import { Route as FavoritosRouteImport } from './routes/favoritos'
 import { Route as MaisRouteImport } from './routes/mais'
 import { Route as PlanejarRouteImport } from './routes/planejar'
+import { Route as PlanilhasRouteImport } from './routes/planilhas'
 import { Route as ReceitasRouteImport } from './routes/receitas'
 
 const IndexRoute = IndexRouteImport.update({
@@ -21,14 +25,29 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DesafioRoute = DesafioRouteImport.update({
   id: '/desafio',
   path: '/desafio',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DownloadsRoute = DownloadsRouteImport.update({
+  id: '/downloads',
+  path: '/downloads',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ExerciciosRoute = ExerciciosRouteImport.update({
   id: '/exercicios',
   path: '/exercicios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FavoritosRoute = FavoritosRouteImport.update({
+  id: '/favoritos',
+  path: '/favoritos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MaisRoute = MaisRouteImport.update({
@@ -41,6 +60,11 @@ const PlanejarRoute = PlanejarRouteImport.update({
   path: '/planejar',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlanilhasRoute = PlanilhasRouteImport.update({
+  id: '/planilhas',
+  path: '/planilhas',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReceitasRoute = ReceitasRouteImport.update({
   id: '/receitas',
   path: '/receitas',
@@ -49,51 +73,90 @@ const ReceitasRoute = ReceitasRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/desafio': typeof DesafioRoute
+  '/downloads': typeof DownloadsRoute
   '/exercicios': typeof ExerciciosRoute
+  '/favoritos': typeof FavoritosRoute
   '/mais': typeof MaisRoute
   '/planejar': typeof PlanejarRoute
+  '/planilhas': typeof PlanilhasRoute
   '/receitas': typeof ReceitasRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/desafio': typeof DesafioRoute
+  '/downloads': typeof DownloadsRoute
   '/exercicios': typeof ExerciciosRoute
+  '/favoritos': typeof FavoritosRoute
   '/mais': typeof MaisRoute
   '/planejar': typeof PlanejarRoute
+  '/planilhas': typeof PlanilhasRoute
   '/receitas': typeof ReceitasRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/desafio': typeof DesafioRoute
+  '/downloads': typeof DownloadsRoute
   '/exercicios': typeof ExerciciosRoute
+  '/favoritos': typeof FavoritosRoute
   '/mais': typeof MaisRoute
   '/planejar': typeof PlanejarRoute
+  '/planilhas': typeof PlanilhasRoute
   '/receitas': typeof ReceitasRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/desafio' | '/exercicios' | '/mais' | '/planejar' | '/receitas'
+    | '/'
+    | '/configuracoes'
+    | '/desafio'
+    | '/downloads'
+    | '/exercicios'
+    | '/favoritos'
+    | '/mais'
+    | '/planejar'
+    | '/planilhas'
+    | '/receitas'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/desafio' | '/exercicios' | '/mais' | '/planejar' | '/receitas'
+  to:
+    | '/'
+    | '/configuracoes'
+    | '/desafio'
+    | '/downloads'
+    | '/exercicios'
+    | '/favoritos'
+    | '/mais'
+    | '/planejar'
+    | '/planilhas'
+    | '/receitas'
   id:
     | '__root__'
     | '/'
+    | '/configuracoes'
     | '/desafio'
+    | '/downloads'
     | '/exercicios'
+    | '/favoritos'
     | '/mais'
     | '/planejar'
+    | '/planilhas'
     | '/receitas'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ConfiguracoesRoute: typeof ConfiguracoesRoute
   DesafioRoute: typeof DesafioRoute
+  DownloadsRoute: typeof DownloadsRoute
   ExerciciosRoute: typeof ExerciciosRoute
+  FavoritosRoute: typeof FavoritosRoute
   MaisRoute: typeof MaisRoute
   PlanejarRoute: typeof PlanejarRoute
+  PlanilhasRoute: typeof PlanilhasRoute
   ReceitasRoute: typeof ReceitasRoute
 }
 
@@ -106,6 +169,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/configuracoes': {
+      id: '/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/configuracoes'
+      preLoaderRoute: typeof ConfiguracoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/desafio': {
       id: '/desafio'
       path: '/desafio'
@@ -113,11 +183,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DesafioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/downloads': {
+      id: '/downloads'
+      path: '/downloads'
+      fullPath: '/downloads'
+      preLoaderRoute: typeof DownloadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/exercicios': {
       id: '/exercicios'
       path: '/exercicios'
       fullPath: '/exercicios'
       preLoaderRoute: typeof ExerciciosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/favoritos': {
+      id: '/favoritos'
+      path: '/favoritos'
+      fullPath: '/favoritos'
+      preLoaderRoute: typeof FavoritosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mais': {
@@ -134,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlanejarRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/planilhas': {
+      id: '/planilhas'
+      path: '/planilhas'
+      fullPath: '/planilhas'
+      preLoaderRoute: typeof PlanilhasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/receitas': {
       id: '/receitas'
       path: '/receitas'
@@ -146,10 +237,14 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ConfiguracoesRoute: ConfiguracoesRoute,
   DesafioRoute: DesafioRoute,
+  DownloadsRoute: DownloadsRoute,
   ExerciciosRoute: ExerciciosRoute,
+  FavoritosRoute: FavoritosRoute,
   MaisRoute: MaisRoute,
   PlanejarRoute: PlanejarRoute,
+  PlanilhasRoute: PlanilhasRoute,
   ReceitasRoute: ReceitasRoute,
 }
 export const routeTree = rootRouteImport
