@@ -111,6 +111,8 @@ export const materiais: Material[] = [
     capaUrl: receitas80Capa.url,
     arquivoUrl: receitas80Pdf.url,
     arquivoTipo: "PDF",
+    publicado: true,
+  },
   {
     id: "mt-100-receitas-fit",
     nome: "100 Receitas Fit",
