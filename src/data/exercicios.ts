@@ -492,6 +492,10 @@ import tricepsPatadaUnilateralComHalteresNoBancoGif from "@/assets/exercicios/tr
 import tricepsPatadaUnilateralComHalteresNoBancoJpg from "@/assets/exercicios/triceps-patada-unilateral-com-halteres-no-banco.jpg.asset.json";
 import tricepsPatadaComHalteresEmPeGif from "@/assets/exercicios/triceps-patada-com-halteres-em-pe.gif.asset.json";
 import tricepsPatadaComHalteresEmPeJpg from "@/assets/exercicios/triceps-patada-com-halteres-em-pe.jpg.asset.json";
+import tricepsExtBilateralDeitadoGif from "@/assets/exercicios/triceps-extensao-bilateral-com-halteres-deitado.gif.asset.json";
+import tricepsExtBilateralDeitadoJpg from "@/assets/exercicios/triceps-extensao-bilateral-com-halteres-deitado.jpg.asset.json";
+import tricepsUniSupinadaPoliaGif from "@/assets/exercicios/triceps-unilateral-pegada-supinada-na-polia.gif.asset.json";
+import tricepsUniSupinadaPoliaJpg from "@/assets/exercicios/triceps-unilateral-pegada-supinada-na-polia.jpg.asset.json";
 
 export type Exercicio = {
   id: string;
@@ -5950,6 +5954,50 @@ export const exercicios: Exercicio[] = [
     gifUrl: tricepsPatadaComHalteresEmPeGif.url,
     videoUrl: "",
     arquivoDownloadUrl: tricepsPatadaComHalteresEmPeGif.url,
+    seriesPadrao: "",
+    repeticoesPadrao: "",
+    duracaoPadrao: "",
+    descansoPadrao: "",
+    tags: [],
+    publicado: true,
+  },
+  {
+    id: "ex-triceps-extensao-bilateral-com-halteres-deitado",
+    nome: "Tríceps extensão bilateral com halteres deitado no banco",
+    slug: "triceps-extensao-bilateral-com-halteres-deitado",
+    categoria: "triceps",
+    grupoMuscularPrincipal: "Tríceps",
+    gruposSecundarios: [],
+    descricao: "",
+    nivel: "",
+    equipamento: "Halteres",
+    local: "Academia",
+    thumbnailUrl: tricepsExtBilateralDeitadoJpg.url,
+    gifUrl: tricepsExtBilateralDeitadoGif.url,
+    videoUrl: "",
+    arquivoDownloadUrl: tricepsExtBilateralDeitadoGif.url,
+    seriesPadrao: "",
+    repeticoesPadrao: "",
+    duracaoPadrao: "",
+    descansoPadrao: "",
+    tags: [],
+    publicado: true,
+  },
+  {
+    id: "ex-triceps-unilateral-pegada-supinada-na-polia",
+    nome: "Tríceps unilateral pegada supinada na polia",
+    slug: "triceps-unilateral-pegada-supinada-na-polia",
+    categoria: "triceps",
+    grupoMuscularPrincipal: "Tríceps",
+    gruposSecundarios: [],
+    descricao: "",
+    nivel: "",
+    equipamento: "Polia",
+    local: "Academia",
+    thumbnailUrl: tricepsUniSupinadaPoliaJpg.url,
+    gifUrl: tricepsUniSupinadaPoliaGif.url,
+    videoUrl: "",
+    arquivoDownloadUrl: tricepsUniSupinadaPoliaGif.url,
     seriesPadrao: "",
     repeticoesPadrao: "",
     duracaoPadrao: "",
