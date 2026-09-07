@@ -20,6 +20,7 @@ export const categorias: Categoria[] = [
   { id: "c10", nome: "Corpo todo", slug: "corpo-todo", icone: "⚡" },
   { id: "c11", nome: "Antebraço", slug: "antebraco", icone: "🤝" },
   { id: "c12", nome: "Trapézio", slug: "trapezio", icone: "🛡️" },
+  { id: "c13", nome: "Lombar", slug: "lombar", icone: "🧱" },
 ];
 
 export const niveis = ["Iniciante", "Intermediário", "Avançado"] as const;
