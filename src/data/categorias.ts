@@ -7,10 +7,6 @@ export type Categoria = {
   exemplo?: boolean;
 };
 
-/**
- * EXEMPLO / PROVISÓRIO.
- * Estas categorias serão substituídas pelos nomes das pastas reais enviadas.
- */
 export const categorias: Categoria[] = [
   { id: "c1", nome: "Bíceps", slug: "biceps", icone: "💪" },
   { id: "c2", nome: "Tríceps", slug: "triceps", icone: "🦾" },
@@ -22,6 +18,8 @@ export const categorias: Categoria[] = [
   { id: "c8", nome: "Glúteos", slug: "gluteos", icone: "🍑" },
   { id: "c9", nome: "Panturrilhas", slug: "panturrilhas", icone: "👟" },
   { id: "c10", nome: "Corpo todo", slug: "corpo-todo", icone: "⚡" },
+  { id: "c11", nome: "Antebraço", slug: "antebraco", icone: "🤝" },
+  { id: "c12", nome: "Trapézio", slug: "trapezio", icone: "🛡️" },
 ];
 
 export const niveis = ["Iniciante", "Intermediário", "Avançado"] as const;
