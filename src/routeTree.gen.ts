@@ -10,12 +10,20 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DesafioRouteImport } from './routes/desafio'
 import { Route as ExerciciosRouteImport } from './routes/exercicios'
+import { Route as MaisRouteImport } from './routes/mais'
 import { Route as PlanejarRouteImport } from './routes/planejar'
+import { Route as ReceitasRouteImport } from './routes/receitas'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DesafioRoute = DesafioRouteImport.update({
+  id: '/desafio',
+  path: '/desafio',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExerciciosRoute = ExerciciosRouteImport.update({
@@ -23,40 +31,70 @@ const ExerciciosRoute = ExerciciosRouteImport.update({
   path: '/exercicios',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MaisRoute = MaisRouteImport.update({
+  id: '/mais',
+  path: '/mais',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlanejarRoute = PlanejarRouteImport.update({
   id: '/planejar',
   path: '/planejar',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReceitasRoute = ReceitasRouteImport.update({
+  id: '/receitas',
+  path: '/receitas',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/desafio': typeof DesafioRoute
   '/exercicios': typeof ExerciciosRoute
+  '/mais': typeof MaisRoute
   '/planejar': typeof PlanejarRoute
+  '/receitas': typeof ReceitasRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/desafio': typeof DesafioRoute
   '/exercicios': typeof ExerciciosRoute
+  '/mais': typeof MaisRoute
   '/planejar': typeof PlanejarRoute
+  '/receitas': typeof ReceitasRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/desafio': typeof DesafioRoute
   '/exercicios': typeof ExerciciosRoute
+  '/mais': typeof MaisRoute
   '/planejar': typeof PlanejarRoute
+  '/receitas': typeof ReceitasRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/exercicios' | '/planejar'
+  fullPaths:
+    '/' | '/desafio' | '/exercicios' | '/mais' | '/planejar' | '/receitas'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/exercicios' | '/planejar'
-  id: '__root__' | '/' | '/exercicios' | '/planejar'
+  to: '/' | '/desafio' | '/exercicios' | '/mais' | '/planejar' | '/receitas'
+  id:
+    | '__root__'
+    | '/'
+    | '/desafio'
+    | '/exercicios'
+    | '/mais'
+    | '/planejar'
+    | '/receitas'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DesafioRoute: typeof DesafioRoute
   ExerciciosRoute: typeof ExerciciosRoute
+  MaisRoute: typeof MaisRoute
   PlanejarRoute: typeof PlanejarRoute
+  ReceitasRoute: typeof ReceitasRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -68,11 +106,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/desafio': {
+      id: '/desafio'
+      path: '/desafio'
+      fullPath: '/desafio'
+      preLoaderRoute: typeof DesafioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/exercicios': {
       id: '/exercicios'
       path: '/exercicios'
       fullPath: '/exercicios'
       preLoaderRoute: typeof ExerciciosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mais': {
+      id: '/mais'
+      path: '/mais'
+      fullPath: '/mais'
+      preLoaderRoute: typeof MaisRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/planejar': {
@@ -82,13 +134,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlanejarRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/receitas': {
+      id: '/receitas'
+      path: '/receitas'
+      fullPath: '/receitas'
+      preLoaderRoute: typeof ReceitasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DesafioRoute: DesafioRoute,
   ExerciciosRoute: ExerciciosRoute,
+  MaisRoute: MaisRoute,
   PlanejarRoute: PlanejarRoute,
+  ReceitasRoute: ReceitasRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
