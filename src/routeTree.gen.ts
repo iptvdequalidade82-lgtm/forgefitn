@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ExerciciosRouteImport } from './routes/exercicios'
+import { Route as PlanejarRouteImport } from './routes/planejar'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const ExerciciosRoute = ExerciciosRouteImport.update({
   path: '/exercicios',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlanejarRoute = PlanejarRouteImport.update({
+  id: '/planejar',
+  path: '/planejar',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/exercicios': typeof ExerciciosRoute
+  '/planejar': typeof PlanejarRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/exercicios': typeof ExerciciosRoute
+  '/planejar': typeof PlanejarRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/exercicios': typeof ExerciciosRoute
+  '/planejar': typeof PlanejarRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/exercicios'
+  fullPaths: '/' | '/exercicios' | '/planejar'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/exercicios'
-  id: '__root__' | '/' | '/exercicios'
+  to: '/' | '/exercicios' | '/planejar'
+  id: '__root__' | '/' | '/exercicios' | '/planejar'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ExerciciosRoute: typeof ExerciciosRoute
+  PlanejarRoute: typeof PlanejarRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExerciciosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/planejar': {
+      id: '/planejar'
+      path: '/planejar'
+      fullPath: '/planejar'
+      preLoaderRoute: typeof PlanejarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ExerciciosRoute: ExerciciosRoute,
+  PlanejarRoute: PlanejarRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
