@@ -13,6 +13,7 @@ import { diasDesafio, TOTAL_DIAS_DESAFIO, type DiaDesafio } from "@/data/desafio
 import { useForge } from "@/lib/store";
 import { PageHeader, EtiquetaExemplo } from "@/components/forge/ui-bits";
 import { Thumbnail } from "@/components/forge/Media";
+import { materiaisPorCategoria } from "@/data/materiais";
 import { baixarArquivo } from "@/lib/download";
 import { cn } from "@/lib/utils";
 
@@ -66,6 +67,43 @@ function Desafio() {
           Continuar do dia {state.desafio.ultimoDia}
         </Button>
       </div>
+
+      <section className="mb-6">
+        <h2 className="mb-3 font-display text-xl uppercase tracking-wide">
+          Materiais do desafio
+        </h2>
+        <ul className="grid gap-3 sm:grid-cols-3">
+          {materiaisPorCategoria("Desafio").map((m) => (
+            <li key={m.id} className="card-surface flex flex-col gap-3 p-4">
+              <img
+                src={m.capaUrl}
+                alt={`Capa do material ${m.nome}`}
+                loading="lazy"
+                className="h-40 w-full rounded-xl object-cover object-top"
+              />
+              <div className="flex-1">
+                <p className="font-medium leading-snug">{m.nome}</p>
+                <p className="text-sm text-muted-foreground">
+                  PDF{m.paginas ? ` · ${m.paginas} páginas` : ""}
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <Button asChild variant="secondary" className="flex-1">
+                  <a href={m.arquivoUrl} target="_blank" rel="noreferrer">
+                    Visualizar
+                  </a>
+                </Button>
+                <Button
+                  className="flex-1"
+                  onClick={() => baixarArquivo(m.arquivoUrl, m.nome)}
+                >
+                  Baixar
+                </Button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <ul className="grid grid-cols-3 gap-2.5 sm:grid-cols-4 lg:grid-cols-6">
         {diasDesafio.map((d) => {

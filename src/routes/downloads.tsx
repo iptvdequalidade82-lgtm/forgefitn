@@ -15,6 +15,7 @@ import { exercicios } from "@/data/exercicios";
 import { planilhas } from "@/data/planilhas";
 import { receitas } from "@/data/receitas";
 import { diasDesafio } from "@/data/desafio";
+import { materiais } from "@/data/materiais";
 import { PageHeader, Chip, EmptyState } from "@/components/forge/ui-bits";
 import { baixarArquivo } from "@/lib/download";
 
@@ -77,6 +78,17 @@ function listarArquivos(): Arquivo[] {
       url: r.arquivoDownloadUrl,
     }),
   );
+  materiais
+    .filter((m) => m.publicado)
+    .forEach((m) =>
+      itens.push({
+        id: m.id,
+        nome: m.nome,
+        tipo: m.arquivoTipo,
+        categoria: m.categoria,
+        url: m.arquivoUrl,
+      }),
+    );
   diasDesafio
     .filter((d) => d.arquivoUrl)
     .forEach((d) =>
