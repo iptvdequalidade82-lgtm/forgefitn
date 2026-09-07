@@ -13,6 +13,12 @@ import cardapioCapa from "@/assets/materiais/cardapio-comer-fora-capa.jpg.asset.
 import receitas200Pdf from "@/assets/materiais/200-receitas-cafe-da-manha.pdf.asset.json";
 import receitas200Capa from "@/assets/materiais/200-receitas-cafe-da-manha-capa.jpg.asset.json";
 import receitas80Pdf from "@/assets/materiais/80-receitas-para-congelar.pdf.asset.json";
+import receitas100Pdf from "@/assets/materiais/100-receitas-fit.pdf.asset.json";
+import receitas100Capa from "@/assets/materiais/100-receitas-fit-capa.jpg.asset.json";
+import receitas300Pdf from "@/assets/materiais/300-receitas-anabolicas.pdf.asset.json";
+import receitas300Capa from "@/assets/materiais/300-receitas-anabolicas-capa.jpg.asset.json";
+import receitas500Pdf from "@/assets/materiais/500-receitas-low-carb.pdf.asset.json";
+import receitas500Capa from "@/assets/materiais/500-receitas-low-carb-capa.jpg.asset.json";
 import receitas80Capa from "@/assets/materiais/80-receitas-para-congelar-capa.jpg.asset.json";
 
 export type Material = {
