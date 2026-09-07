@@ -13,6 +13,12 @@ import cardapioCapa from "@/assets/materiais/cardapio-comer-fora-capa.jpg.asset.
 import receitas200Pdf from "@/assets/materiais/200-receitas-cafe-da-manha.pdf.asset.json";
 import receitas200Capa from "@/assets/materiais/200-receitas-cafe-da-manha-capa.jpg.asset.json";
 import receitas80Pdf from "@/assets/materiais/80-receitas-para-congelar.pdf.asset.json";
+import receitas100Pdf from "@/assets/materiais/100-receitas-fit.pdf.asset.json";
+import receitas100Capa from "@/assets/materiais/100-receitas-fit-capa.jpg.asset.json";
+import receitas300Pdf from "@/assets/materiais/300-receitas-anabolicas.pdf.asset.json";
+import receitas300Capa from "@/assets/materiais/300-receitas-anabolicas-capa.jpg.asset.json";
+import receitas500Pdf from "@/assets/materiais/500-receitas-low-carb.pdf.asset.json";
+import receitas500Capa from "@/assets/materiais/500-receitas-low-carb-capa.jpg.asset.json";
 import receitas80Capa from "@/assets/materiais/80-receitas-para-congelar-capa.jpg.asset.json";
 
 export type Material = {
@@ -106,6 +112,38 @@ export const materiais: Material[] = [
     arquivoUrl: receitas80Pdf.url,
     arquivoTipo: "PDF",
     publicado: true,
+  },
+  {
+    id: "mt-100-receitas-fit",
+    nome: "100 Receitas Fit",
+    categoria: "Receitas",
+    paginas: 66,
+    capaUrl: receitas100Capa.url,
+    arquivoUrl: receitas100Pdf.url,
+    arquivoTipo: "PDF",
+    publicado: true,
+  },
+  {
+    id: "mt-500-receitas-low-carb",
+    nome: "500 Receitas Low Carb",
+    categoria: "Receitas",
+    paginas: 308,
+    capaUrl: receitas500Capa.url,
+    arquivoUrl: receitas500Pdf.url,
+    arquivoTipo: "PDF",
+    publicado: true,
+  },
+  {
+    // Arquivo enviado contém apenas 3 páginas de apresentação com link externo.
+    // Mantido despublicado até o material completo ser enviado.
+    id: "mt-300-receitas-anabolicas",
+    nome: "300 Receitas Anabólicas",
+    categoria: "Receitas",
+    paginas: 3,
+    capaUrl: receitas300Capa.url,
+    arquivoUrl: receitas300Pdf.url,
+    arquivoTipo: "PDF",
+    publicado: false,
   },
 ];
 
