@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, ChevronRight, Dumbbell, RotateCcw, Sparkles, Wand2 } from "lucide-react";
+import { Check, ChevronRight, RotateCcw, Sparkles, Wand2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -335,10 +335,12 @@ function Campo({
   label,
   value,
   onChange,
+  somenteLeitura,
 }: {
   label: string;
   value: string;
   onChange: (value: string) => void;
+  somenteLeitura?: boolean;
 }) {
   const id = React.useId();
   return (
@@ -347,10 +349,13 @@ function Campo({
       <Input
         id={id}
         value={value}
+        readOnly={somenteLeitura}
+        aria-readonly={somenteLeitura}
         onChange={(event) => onChange(event.target.value)}
         className={cn(
           "mt-1 h-9 bg-background px-2 text-foreground",
           label === "Repetições" && "text-xs sm:text-sm",
+          somenteLeitura && "cursor-default opacity-80",
         )}
       />
     </label>
