@@ -12,7 +12,6 @@
 - [x] Exibir o GIF do exercício escolhido
 - [x] Validar o fluxo atualizado
 
-
 ## Jornada de treinos mais clara
 
 - [x] Renomear e reorganizar a navegação entre Execuções, Treinos e Meu treino

@@ -148,60 +148,60 @@ export function WorkoutBuilder({
 
           <section aria-labelledby="foco-titulo">
             <h3 id="foco-titulo" className="mb-2 text-sm font-semibold">
-               1. Escolha sua rotina
+              1. Escolha sua rotina
             </h3>
-             <p className="mb-3 text-xs text-muted-foreground">
-               Comece por uma sugestão da FORGEFIT ou escolha até duas regiões do corpo.
-             </p>
-             <div className="mb-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
-               {combinacoesSugeridas.map((combinacao) => {
-                 const ativa =
-                   combinacao.focos.length === focoIds.length &&
-                   combinacao.focos.every((id) => focoIds.includes(id));
-                 return (
-                   <Button
-                     key={combinacao.nome}
-                     type="button"
-                     variant={ativa ? "secondary" : "outline"}
-                     className="h-auto min-h-12 whitespace-normal px-3 py-2"
-                     onClick={() => {
-                       setFocoIds(combinacao.focos);
-                       setVariacoes({});
-                     }}
-                   >
-                     <Sparkles className="h-4 w-4 shrink-0" /> {combinacao.nome}
-                   </Button>
-                 );
-               })}
-             </div>
-             <p className="mb-2 text-xs font-medium">Ou monte sua combinação</p>
+            <p className="mb-3 text-xs text-muted-foreground">
+              Comece por uma sugestão da FORGEFIT ou escolha até duas regiões do corpo.
+            </p>
+            <div className="mb-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+              {combinacoesSugeridas.map((combinacao) => {
+                const ativa =
+                  combinacao.focos.length === focoIds.length &&
+                  combinacao.focos.every((id) => focoIds.includes(id));
+                return (
+                  <Button
+                    key={combinacao.nome}
+                    type="button"
+                    variant={ativa ? "secondary" : "outline"}
+                    className="h-auto min-h-12 whitespace-normal px-3 py-2"
+                    onClick={() => {
+                      setFocoIds(combinacao.focos);
+                      setVariacoes({});
+                    }}
+                  >
+                    <Sparkles className="h-4 w-4 shrink-0" /> {combinacao.nome}
+                  </Button>
+                );
+              })}
+            </div>
+            <p className="mb-2 text-xs font-medium">Ou monte sua combinação</p>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               {focosTreino.map((item) => (
                 <Button
                   key={item.id}
-                   type="button"
-                   aria-pressed={focoIds.includes(item.id)}
-                   variant={focoIds.includes(item.id) ? "default" : "outline"}
+                  type="button"
+                  aria-pressed={focoIds.includes(item.id)}
+                  variant={focoIds.includes(item.id) ? "default" : "outline"}
                   className="h-auto min-h-11 justify-between px-3 py-2"
-                   onClick={() => selecionarFoco(item.id)}
+                  onClick={() => selecionarFoco(item.id)}
                 >
                   {item.nome}
-                   {focoIds.includes(item.id) ? <Check className="h-4 w-4" /> : null}
+                  {focoIds.includes(item.id) ? <Check className="h-4 w-4" /> : null}
                 </Button>
               ))}
             </div>
-             <p className="mt-2 text-sm font-medium text-primary">Selecionado: {nomesFocos}</p>
+            <p className="mt-2 text-sm font-medium text-primary">Selecionado: {nomesFocos}</p>
           </section>
 
           <section aria-labelledby="modelo-titulo">
-             <div className="mb-2 flex items-end justify-between gap-3">
+            <div className="mb-2 flex items-end justify-between gap-3">
               <div>
                 <h3 id="modelo-titulo" className="text-sm font-semibold">
-                   2. Escolha o modelo de cada região
+                  2. Escolha o modelo de cada região
                 </h3>
-                 <p className="text-xs text-muted-foreground">
-                   Cada região tem duas sequências preparadas pela FORGEFIT.
-                 </p>
+                <p className="text-xs text-muted-foreground">
+                  Cada região tem duas sequências preparadas pela FORGEFIT.
+                </p>
               </div>
               <Button
                 variant="ghost"
@@ -212,27 +212,25 @@ export function WorkoutBuilder({
                 <RotateCcw className="h-4 w-4" /> Restaurar
               </Button>
             </div>
-             <div className="space-y-3">
-               {focosSelecionados.map((foco) => (
-                 <div key={foco.id} className="rounded-lg border border-border p-3">
-                   <p className="mb-2 font-medium">{foco.nome}</p>
-                   <div className="grid grid-cols-2 gap-2">
-                     {foco.variacoes.map((item, indice) => (
-                       <Button
-                         key={item.nome}
-                         type="button"
-                         variant={(variacoes[foco.id] ?? 0) === indice ? "secondary" : "outline"}
-                         className="h-auto min-h-12 whitespace-normal px-3 py-2 text-left"
-                         onClick={() =>
-                           setVariacoes((atuais) => ({ ...atuais, [foco.id]: indice }))
-                         }
-                       >
-                         {item.nome}
-                       </Button>
-                     ))}
-                   </div>
-                 </div>
-               ))}
+            <div className="space-y-3">
+              {focosSelecionados.map((foco) => (
+                <div key={foco.id} className="rounded-lg border border-border p-3">
+                  <p className="mb-2 font-medium">{foco.nome}</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {foco.variacoes.map((item, indice) => (
+                      <Button
+                        key={item.nome}
+                        type="button"
+                        variant={(variacoes[foco.id] ?? 0) === indice ? "secondary" : "outline"}
+                        className="h-auto min-h-12 whitespace-normal px-3 py-2 text-left"
+                        onClick={() => setVariacoes((atuais) => ({ ...atuais, [foco.id]: indice }))}
+                      >
+                        {item.nome}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           </section>
 
@@ -285,13 +283,13 @@ export function WorkoutBuilder({
             <div className="space-y-2">
               {itens.map((item, indice) => {
                 const ex = exercicios.find((e) => e.id === item.exercicioId);
-                 const focoDoItem = focosTreino.find((foco) => foco.id === item.focoId);
-                 const alternativas = exercicios.filter(
-                   (alternativa) =>
-                     alternativa.publicado &&
-                     (alternativa.categoria === focoDoItem?.categoria ||
-                       (focoDoItem?.id === "gluteos" && alternativa.categoria === "pernas")),
-                 );
+                const focoDoItem = focosTreino.find((foco) => foco.id === item.focoId);
+                const alternativas = exercicios.filter(
+                  (alternativa) =>
+                    alternativa.publicado &&
+                    (alternativa.categoria === focoDoItem?.categoria ||
+                      (focoDoItem?.id === "gluteos" && alternativa.categoria === "pernas")),
+                );
                 const personalizando = modo === "personalizado";
                 return (
                   <article
@@ -309,10 +307,10 @@ export function WorkoutBuilder({
                         event.currentTarget.style.display = "none";
                       }}
                     />
-                     <div className="min-w-0 space-y-3">
-                       <p className="text-xs font-semibold uppercase text-primary">
-                         {focoDoItem?.nome}
-                       </p>
+                    <div className="min-w-0 space-y-3">
+                      <p className="text-xs font-semibold uppercase text-primary">
+                        {focoDoItem?.nome}
+                      </p>
                       {personalizando ? (
                         <Select
                           value={item.exercicioId}
@@ -409,7 +407,8 @@ export function WorkoutBuilder({
           <AlertDialogHeader>
             <AlertDialogTitle>Substituir o treino de {DIAS[dia - 1]}?</AlertDialogTitle>
             <AlertDialogDescription>
-               Esse dia já tem exercícios. O treino atual será trocado pela nova rotina de {nomesFocos}.
+              Esse dia já tem exercícios. O treino atual será trocado pela nova rotina de{" "}
+              {nomesFocos}.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
