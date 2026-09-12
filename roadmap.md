@@ -19,4 +19,4 @@
 - [x] Simplificar a tela de Treinos e separar materiais de apoio
 - [x] Melhorar instruções, campos e acesso aos GIFs no montador
 - [x] Melhorar o cronograma para iniciantes e permitir ver execuções
-- [ ] Corrigir categorias repetidas e validar celular/computador
+- [x] Corrigir categorias repetidas e validar celular/computador
