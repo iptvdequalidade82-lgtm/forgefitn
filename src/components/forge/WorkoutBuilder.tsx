@@ -84,7 +84,7 @@ export function WorkoutBuilder({
       forge.adicionarAoDia(dia, {
         ...item,
         duracao: "",
-        observacao: `Treino personalizado — ${foco.nome}`,
+        observacao: `${modo === "padrao" ? "Recomendação FORGEFIT" : "Treino personalizado"} — ${foco.nome}`,
       });
     });
     setConfirmar(false);
@@ -127,7 +127,7 @@ export function WorkoutBuilder({
                     setVariacao(0);
                   }}
                 >
-                  {item.nome}
+                  Recomendação {indice + 1}
                   {item.id === foco.id ? <Check className="h-4 w-4" /> : null}
                 </Button>
               ))}
