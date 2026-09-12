@@ -93,7 +93,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         aria-label="Navegação inferior"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
       >
-        <ul className="grid grid-cols-5">
+        <ul className="grid grid-cols-6">
           {navPrincipal.map((item) => (
             <li key={item.to}>
               <BottomLink item={item} active={isActive(item.to)} />

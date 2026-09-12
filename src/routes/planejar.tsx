@@ -1,5 +1,5 @@
 import * as React from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import {
   ArrowDown,
@@ -15,6 +15,8 @@ import {
   Download,
   CopyPlus,
   GripVertical,
+  Eye,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,6 +51,9 @@ import { categorias } from "@/data/categorias";
 import { receitas } from "@/data/receitas";
 import { PageHeader, EmptyState, Chip } from "@/components/forge/ui-bits";
 import { WorkoutMode } from "@/components/forge/WorkoutMode";
+import { WorkoutBuilder } from "@/components/forge/WorkoutBuilder";
+import { ExerciseModal } from "@/components/forge/ExerciseModal";
+import type { Exercicio } from "@/data/exercicios";
 import { baixarJson } from "@/lib/download";
 import { cn } from "@/lib/utils";
 
@@ -81,6 +86,8 @@ function Planejar() {
   const [copiarAberto, setCopiarAberto] = React.useState(false);
   const [limparAberto, setLimparAberto] = React.useState(false);
   const [treinoAberto, setTreinoAberto] = React.useState(false);
+  const [montadorAberto, setMontadorAberto] = React.useState(false);
+  const [execucao, setExecucao] = React.useState<Exercicio | null>(null);
   const [arrastando, setArrastando] = React.useState<number | null>(null);
   const inputImport = React.useRef<HTMLInputElement>(null);
 
@@ -89,8 +96,8 @@ function Planejar() {
   return (
     <div>
       <PageHeader
-        titulo="Meu cronograma"
-        descricao="Tudo é salvo automaticamente neste navegador."
+        titulo="Meu treino"
+        descricao="Organize sua semana. As alterações são salvas automaticamente neste aparelho."
         acoes={
           <>
             <Button
@@ -122,6 +129,18 @@ function Planejar() {
           </>
         }
       />
+
+      <section className="no-print mb-5 grid gap-3 border-y border-border py-4 sm:grid-cols-[1fr_auto] sm:items-center">
+        <div>
+          <h2 className="font-display text-xl font-semibold uppercase">Precisa de ajuda para começar?</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Escolha um treino recomendado e salve todos os exercícios de uma vez.
+          </p>
+        </div>
+        <Button className="gap-2" onClick={() => setMontadorAberto(true)}>
+          <Sparkles className="h-4 w-4" /> Escolher treino recomendado
+        </Button>
+      </section>
 
       <input
         ref={inputImport}
@@ -189,7 +208,7 @@ function Planejar() {
 
         <div className="no-print mb-4 flex flex-wrap gap-2">
           <Button size="sm" className="gap-1.5" onClick={() => setSeletorAberto(true)}>
-            <Plus className="h-4 w-4" /> Adicionar exercício
+            <Plus className="h-4 w-4" /> Adicionar exercício avulso
           </Button>
           <Button
             size="sm"
@@ -232,10 +251,10 @@ function Planejar() {
         {diaAtual.itens.length === 0 ? (
           <EmptyState
             titulo="Dia vazio"
-            descricao="Adicione exercícios da biblioteca para montar o treino deste dia."
+            descricao="Use um treino recomendado acima ou adicione um exercício avulso."
             acao={
               <Button className="no-print" onClick={() => setSeletorAberto(true)}>
-                Adicionar exercício
+                Adicionar exercício avulso
               </Button>
             }
           />
@@ -271,6 +290,15 @@ function Planejar() {
                       </div>
                     </div>
                     <div className="flex shrink-0 items-center gap-1 no-print">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        aria-label={`Ver execução de ${ex?.nome ?? "exercício"}`}
+                        disabled={!ex}
+                        onClick={() => ex && setExecucao(ex)}
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
                       <Button
                         variant="ghost"
                         size="icon"
@@ -477,6 +505,12 @@ function Planejar() {
           toast.success("Treino finalizado");
         }}
       />
+      <WorkoutBuilder open={montadorAberto} onOpenChange={setMontadorAberto} />
+      <ExerciseModal
+        exercicio={execucao}
+        open={Boolean(execucao)}
+        onOpenChange={(aberto) => !aberto && setExecucao(null)}
+      />
     </div>
   );
 }
@@ -499,7 +533,20 @@ function CampoItem({
       >
         {label}
       </Label>
-      <Input id={id} value={valor} onChange={(e) => onChange(e.target.value)} />
+      <Input
+        id={id}
+        value={valor}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={
+          label === "Séries"
+            ? "Ex.: 3"
+            : label === "Repetições"
+              ? "Ex.: 10"
+              : label === "Descanso"
+                ? "Ex.: 60 s"
+                : "Ex.: 30 s"
+        }
+      />
     </div>
   );
 }

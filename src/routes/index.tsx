@@ -24,7 +24,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Seu painel ForgeFit: treino de hoje, resumo da semana, categorias de exercícios, planilhas e receitas.",
+          "Seu painel ForgeFit: treino de hoje, resumo da semana, treinos recomendados, execuções e receitas.",
       },
       { property: "og:title", content: "Início — FORGEFIT" },
       {
@@ -124,7 +124,7 @@ function Inicio() {
               Seu cronograma ainda está vazio.
             </p>
             <Button asChild>
-              <Link to="/planejar">Montar minha semana</Link>
+              <Link to="/planilhas">Escolher um treino</Link>
             </Button>
           </div>
         ) : (
@@ -187,8 +187,8 @@ function Inicio() {
         <AtalhoCard
           to="/planilhas"
           icone={<FileSpreadsheet className="h-5 w-5" />}
-          titulo="Planilhas"
-          descricao="Cronogramas prontos"
+          titulo="Treinos"
+          descricao="Recomendações personalizáveis"
         />
         <AtalhoCard
           to="/receitas"
@@ -202,7 +202,7 @@ function Inicio() {
       <section>
         <div className="mb-3 flex items-center justify-between">
           <h2 className="font-display text-xl font-semibold uppercase">
-            Categorias populares
+            Execuções por região
           </h2>
           <Link to="/exercicios" className="text-sm text-primary hover:underline">
             Ver todas
@@ -257,7 +257,7 @@ function Inicio() {
             icone={<Dumbbell className="h-7 w-7" />}
             acao={
               <Button asChild>
-                <Link to="/exercicios">Explorar exercícios</Link>
+                <Link to="/exercicios">Ver execuções</Link>
               </Button>
             }
           />
@@ -267,7 +267,7 @@ function Inicio() {
       <div className="pb-2">
         <Button asChild variant="outline" className="w-full gap-2 sm:w-auto">
           <Link to="/exercicios">
-            <CalendarDays className="h-4 w-4" /> Explorar exercícios
+             <CalendarDays className="h-4 w-4" /> Consultar execuções
           </Link>
         </Button>
       </div>
