@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, ChevronRight, Dumbbell, RotateCcw, Sparkles } from "lucide-react";
+import { Check, ChevronRight, Dumbbell, RotateCcw, Sparkles, Wand2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -54,12 +54,14 @@ export function WorkoutBuilder({
   const [variacao, setVariacao] = React.useState(0);
   const [dia, setDia] = React.useState(1);
   const [itens, setItens] = React.useState<ItemEditavel[]>([]);
+  const [modo, setModo] = React.useState<"padrao" | "personalizado">("padrao");
   const [confirmar, setConfirmar] = React.useState(false);
   const foco = focosTreino.find((item) => item.id === focoId) ?? focosTreino[0];
   const modelo = foco?.variacoes[variacao] ?? foco?.variacoes[0];
 
   const carregarModelo = React.useCallback(() => {
     setItens(criarItens(modelo?.exercicioIds ?? []));
+    setModo("padrao");
   }, [modelo]);
 
   React.useEffect(() => {
