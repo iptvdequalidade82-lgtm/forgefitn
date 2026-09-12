@@ -127,7 +127,7 @@ export function WorkoutBuilder({
                     setVariacao(0);
                   }}
                 >
-                  Recomendação {indice + 1}
+                  {item.nome}
                   {item.id === foco.id ? <Check className="h-4 w-4" /> : null}
                 </Button>
               ))}
@@ -159,7 +159,7 @@ export function WorkoutBuilder({
                   className="h-auto min-h-12 whitespace-normal px-3 py-2 text-left"
                   onClick={() => setVariacao(indice)}
                 >
-                  {item.nome}
+                  Recomendação {indice + 1}
                 </Button>
               ))}
             </div>
