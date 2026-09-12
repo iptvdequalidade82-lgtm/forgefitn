@@ -26,13 +26,13 @@ export const Route = createFileRoute("/exercicios")({
   }),
   head: () => ({
     meta: [
-      { title: "Exercícios — FORGEFIT" },
+      { title: "Execuções de exercícios — FORGEFIT" },
       {
         name: "description",
         content:
-          "Biblioteca de exercícios ForgeFit com busca, filtros por grupo muscular, nível, equipamento e local.",
+          "Veja como executar cada exercício com GIF e encontre movimentos por grupo muscular, equipamento e local.",
       },
-      { property: "og:title", content: "Exercícios — FORGEFIT" },
+      { property: "og:title", content: "Execuções de exercícios — FORGEFIT" },
       {
         property: "og:description",
         content: "Busque e filtre exercícios e adicione ao seu cronograma semanal.",
@@ -93,8 +93,8 @@ function Biblioteca() {
   return (
     <div>
       <PageHeader
-        titulo="Exercícios"
-        descricao="Toque em um exercício para ver a execução em movimento."
+        titulo="Execuções"
+        descricao="Consulte o movimento correto. Para montar uma rotina completa, comece em Treinos."
       />
 
       <div className="card-surface mb-5 space-y-3 p-4">
@@ -110,7 +110,7 @@ function Biblioteca() {
             id="busca-exercicio"
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
-            placeholder="Pesquisar exercício"
+            placeholder="Qual exercício você procura?"
             className="pl-9"
           />
         </div>

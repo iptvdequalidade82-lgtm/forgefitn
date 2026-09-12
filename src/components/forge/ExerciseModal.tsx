@@ -23,7 +23,7 @@ export function ExerciseModal({
   exercicio: Exercicio | null;
   open: boolean;
   onOpenChange: (v: boolean) => void;
-  onAdicionar: (ex: Exercicio) => void;
+  onAdicionar?: (ex: Exercicio) => void;
 }) {
   const { isFavorito, toggleFavorito } = useForge();
   const [pausado, setPausado] = React.useState(false);
@@ -135,10 +135,12 @@ export function ExerciseModal({
           </div>
         ) : null}
 
-        <div className="grid gap-2 sm:grid-cols-2">
-          <Button className="gap-1.5" onClick={() => onAdicionar(exercicio)}>
-            <Plus className="h-4 w-4" /> Adicionar ao cronograma
-          </Button>
+        <div className={cn("grid gap-2", onAdicionar && "sm:grid-cols-2")}>
+          {onAdicionar ? (
+            <Button className="gap-1.5" onClick={() => onAdicionar(exercicio)}>
+              <Plus className="h-4 w-4" /> Adicionar ao meu treino
+            </Button>
+          ) : null}
           <Button
             variant="outline"
             className="gap-1.5"

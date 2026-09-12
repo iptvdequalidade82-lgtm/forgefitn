@@ -66,10 +66,10 @@ export function ExerciseCard({
         </div>
         <div className="mt-auto grid grid-cols-2 gap-2 pt-2">
           <Button size="sm" onClick={onVer} className="gap-1.5">
-            <Eye className="h-4 w-4" /> Ver execução
+            <Eye className="h-4 w-4" /> Ver movimento
           </Button>
           <Button size="sm" variant="outline" onClick={onAdicionar} className="gap-1.5">
-            <Plus className="h-4 w-4" /> Cronograma
+            <Plus className="h-4 w-4" /> Meu treino
           </Button>
         </div>
       </div>
