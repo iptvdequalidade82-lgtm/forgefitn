@@ -12,7 +12,6 @@
 - [x] Exibir o GIF do exercício escolhido
 - [x] Validar o fluxo atualizado
 
-
 ## Jornada de treinos mais clara
 
 - [x] Renomear e reorganizar a navegação entre Execuções, Treinos e Meu treino
@@ -20,3 +19,10 @@
 - [x] Melhorar instruções, campos e acesso aos GIFs no montador
 - [x] Melhorar o cronograma para iniciantes e permitir ver execuções
 - [x] Corrigir categorias repetidas e validar celular/computador
+
+## Rotinas combinadas
+
+- [x] Permitir escolher uma ou duas regiões no mesmo treino
+- [x] Adicionar combinações sugeridas pela FORGEFIT
+- [x] Manter modelos e alternativas separados por região
+- [x] Validar salvamento e visual em celular/computador

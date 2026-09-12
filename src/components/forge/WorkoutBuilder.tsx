@@ -28,19 +28,28 @@ import { cn } from "@/lib/utils";
 import { ExerciseModal } from "./ExerciseModal";
 
 type ItemEditavel = {
+  focoId: string;
   exercicioId: string;
   series: string;
   repeticoes: string;
   descanso: string;
 };
 
-const criarItens = (ids: string[]): ItemEditavel[] =>
+const criarItens = (focoId: string, ids: string[]): ItemEditavel[] =>
   ids.map((exercicioId) => ({
+    focoId,
     exercicioId,
     series: "3 - 4",
     repeticoes: "10 - 12",
     descanso: "1 min",
   }));
+
+const combinacoesSugeridas = [
+  { nome: "Costas + Bíceps", focos: ["costas", "biceps"] },
+  { nome: "Peito + Tríceps", focos: ["peito", "triceps"] },
+  { nome: "Pernas", focos: ["pernas"] },
+  { nome: "Ombros + Tríceps", focos: ["ombros", "triceps"] },
+];
 
 export function WorkoutBuilder({
   open,
@@ -50,32 +59,55 @@ export function WorkoutBuilder({
   onOpenChange: (v: boolean) => void;
 }) {
   const forge = useForge();
-  const [focoId, setFocoId] = React.useState(focosTreino[0]?.id ?? "");
-  const [variacao, setVariacao] = React.useState(0);
+  const [focoIds, setFocoIds] = React.useState<string[]>([focosTreino[0]?.id ?? ""]);
+  const [variacoes, setVariacoes] = React.useState<Record<string, number>>({});
   const [dia, setDia] = React.useState(1);
   const [itens, setItens] = React.useState<ItemEditavel[]>([]);
   const [modo, setModo] = React.useState<"padrao" | "personalizado">("padrao");
   const [confirmar, setConfirmar] = React.useState(false);
   const [execucaoId, setExecucaoId] = React.useState<string | null>(null);
-  const foco = focosTreino.find((item) => item.id === focoId) ?? focosTreino[0];
-  const modelo = foco?.variacoes[variacao] ?? foco?.variacoes[0];
+  const focosSelecionados = React.useMemo(
+    () =>
+      focoIds
+        .map((id) => focosTreino.find((item) => item.id === id))
+        .filter((item): item is (typeof focosTreino)[number] => Boolean(item)),
+    [focoIds],
+  );
+  const nomesFocos = focosSelecionados.map((item) => item.nome).join(" + ");
 
   const carregarModelo = React.useCallback(() => {
-    setItens(criarItens(modelo?.exercicioIds ?? []));
+    setItens(
+      focosSelecionados.flatMap((foco) => {
+        const indice = variacoes[foco.id] ?? 0;
+        const modelo = foco.variacoes[indice] ?? foco.variacoes[0];
+        return criarItens(foco.id, modelo?.exercicioIds ?? []);
+      }),
+    );
     setModo("padrao");
-  }, [modelo]);
+  }, [focosSelecionados, variacoes]);
 
   React.useEffect(() => {
     if (open) carregarModelo();
   }, [open, carregarModelo]);
 
-  if (!foco || !modelo) return null;
+  if (focosSelecionados.length === 0) return null;
 
-  const alternativas = exercicios.filter(
-    (ex) =>
-      ex.publicado &&
-      (ex.categoria === foco.categoria || (foco.id === "gluteos" && ex.categoria === "pernas")),
-  );
+  const selecionarFoco = (id: string) => {
+    setFocoIds((atuais) => {
+      if (atuais.includes(id)) {
+        if (atuais.length === 1) {
+          toast.info("Escolha pelo menos uma região do corpo");
+          return atuais;
+        }
+        return atuais.filter((item) => item !== id);
+      }
+      if (atuais.length === 2) {
+        toast.info("Você pode combinar até duas regiões por treino");
+        return atuais;
+      }
+      return [...atuais, id];
+    });
+  };
 
   const atualizar = (indice: number, patch: Partial<ItemEditavel>) =>
     setItens((atuais) => atuais.map((item, i) => (i === indice ? { ...item, ...patch } : item)));
@@ -86,12 +118,12 @@ export function WorkoutBuilder({
       forge.adicionarAoDia(dia, {
         ...item,
         duracao: "",
-        observacao: `${modo === "padrao" ? "Recomendação FORGEFIT" : "Treino personalizado"} — ${foco.nome}`,
+        observacao: `${modo === "padrao" ? "Recomendação FORGEFIT" : "Treino personalizado"} — ${nomesFocos}`,
       });
     });
     setConfirmar(false);
     onOpenChange(false);
-    toast.success(`Treino de ${foco.nome} adicionado em ${DIAS[dia - 1]}`);
+    toast.success(`Treino de ${nomesFocos} adicionado em ${DIAS[dia - 1]}`);
   };
 
   const solicitarAplicacao = () => {
@@ -109,40 +141,67 @@ export function WorkoutBuilder({
               Recomendação FORGEFIT
             </DialogTitle>
             <p className="text-sm text-muted-foreground">
-              Escolha um foco: siga o treino recomendado como está ou personalize cada exercício
-              antes de salvar no seu cronograma.
+              Escolha uma ou duas regiões, siga a combinação recomendada ou personalize cada
+              exercício antes de salvar.
             </p>
           </DialogHeader>
 
           <section aria-labelledby="foco-titulo">
             <h3 id="foco-titulo" className="mb-2 text-sm font-semibold">
-              1. Escolha a região do corpo
+              1. Escolha sua rotina
             </h3>
+            <p className="mb-3 text-xs text-muted-foreground">
+              Comece por uma sugestão da FORGEFIT ou escolha até duas regiões do corpo.
+            </p>
+            <div className="mb-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+              {combinacoesSugeridas.map((combinacao) => {
+                const ativa =
+                  combinacao.focos.length === focoIds.length &&
+                  combinacao.focos.every((id) => focoIds.includes(id));
+                return (
+                  <Button
+                    key={combinacao.nome}
+                    type="button"
+                    variant={ativa ? "secondary" : "outline"}
+                    className="h-auto min-h-12 whitespace-normal px-3 py-2"
+                    onClick={() => {
+                      setFocoIds(combinacao.focos);
+                      setVariacoes({});
+                    }}
+                  >
+                    <Sparkles className="h-4 w-4 shrink-0" /> {combinacao.nome}
+                  </Button>
+                );
+              })}
+            </div>
+            <p className="mb-2 text-xs font-medium">Ou monte sua combinação</p>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               {focosTreino.map((item) => (
                 <Button
                   key={item.id}
-                  variant={item.id === foco.id ? "default" : "outline"}
+                  type="button"
+                  aria-pressed={focoIds.includes(item.id)}
+                  variant={focoIds.includes(item.id) ? "default" : "outline"}
                   className="h-auto min-h-11 justify-between px-3 py-2"
-                  onClick={() => {
-                    setFocoId(item.id);
-                    setVariacao(0);
-                  }}
+                  onClick={() => selecionarFoco(item.id)}
                 >
                   {item.nome}
-                  {item.id === foco.id ? <Check className="h-4 w-4" /> : null}
+                  {focoIds.includes(item.id) ? <Check className="h-4 w-4" /> : null}
                 </Button>
               ))}
             </div>
+            <p className="mt-2 text-sm font-medium text-primary">Selecionado: {nomesFocos}</p>
           </section>
 
           <section aria-labelledby="modelo-titulo">
             <div className="mb-2 flex items-end justify-between gap-3">
               <div>
                 <h3 id="modelo-titulo" className="text-sm font-semibold">
-                  2. Escolha um modelo de treino
+                  2. Escolha o modelo de cada região
                 </h3>
-                <p className="text-xs text-muted-foreground">{foco.descricao}</p>
+                <p className="text-xs text-muted-foreground">
+                  Cada região tem duas sequências preparadas pela FORGEFIT.
+                </p>
               </div>
               <Button
                 variant="ghost"
@@ -153,16 +212,24 @@ export function WorkoutBuilder({
                 <RotateCcw className="h-4 w-4" /> Restaurar
               </Button>
             </div>
-            <div className="grid grid-cols-2 gap-2">
-              {foco.variacoes.map((item, indice) => (
-                <Button
-                  key={item.nome}
-                  variant={indice === variacao ? "secondary" : "outline"}
-                  className="h-auto min-h-12 whitespace-normal px-3 py-2 text-left"
-                  onClick={() => setVariacao(indice)}
-                >
-                  {item.nome}
-                </Button>
+            <div className="space-y-3">
+              {focosSelecionados.map((foco) => (
+                <div key={foco.id} className="rounded-lg border border-border p-3">
+                  <p className="mb-2 font-medium">{foco.nome}</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {foco.variacoes.map((item, indice) => (
+                      <Button
+                        key={item.nome}
+                        type="button"
+                        variant={(variacoes[foco.id] ?? 0) === indice ? "secondary" : "outline"}
+                        className="h-auto min-h-12 whitespace-normal px-3 py-2 text-left"
+                        onClick={() => setVariacoes((atuais) => ({ ...atuais, [foco.id]: indice }))}
+                      >
+                        {item.nome}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
           </section>
@@ -216,6 +283,13 @@ export function WorkoutBuilder({
             <div className="space-y-2">
               {itens.map((item, indice) => {
                 const ex = exercicios.find((e) => e.id === item.exercicioId);
+                const focoDoItem = focosTreino.find((foco) => foco.id === item.focoId);
+                const alternativas = exercicios.filter(
+                  (alternativa) =>
+                    alternativa.publicado &&
+                    (alternativa.categoria === focoDoItem?.categoria ||
+                      (focoDoItem?.id === "gluteos" && alternativa.categoria === "pernas")),
+                );
                 const personalizando = modo === "personalizado";
                 return (
                   <article
@@ -234,6 +308,9 @@ export function WorkoutBuilder({
                       }}
                     />
                     <div className="min-w-0 space-y-3">
+                      <p className="text-xs font-semibold uppercase text-primary">
+                        {focoDoItem?.nome}
+                      </p>
                       {personalizando ? (
                         <Select
                           value={item.exercicioId}
@@ -330,8 +407,8 @@ export function WorkoutBuilder({
           <AlertDialogHeader>
             <AlertDialogTitle>Substituir o treino de {DIAS[dia - 1]}?</AlertDialogTitle>
             <AlertDialogDescription>
-              Esse dia já tem exercícios. O treino atual será trocado pela nova ficha de {foco.nome}
-              .
+              Esse dia já tem exercícios. O treino atual será trocado pela nova rotina de{" "}
+              {nomesFocos}.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
