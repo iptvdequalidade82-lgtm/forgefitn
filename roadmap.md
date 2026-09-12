@@ -25,4 +25,4 @@
 - [x] Permitir escolher uma ou duas regiões no mesmo treino
 - [x] Adicionar combinações sugeridas pela FORGEFIT
 - [x] Manter modelos e alternativas separados por região
-- [ ] Validar salvamento e visual em celular/computador
+- [x] Validar salvamento e visual em celular/computador
