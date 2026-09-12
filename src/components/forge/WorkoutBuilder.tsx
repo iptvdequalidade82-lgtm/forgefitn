@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, ChevronRight, Dumbbell, RotateCcw, Sparkles } from "lucide-react";
+import { Check, ChevronRight, RotateCcw, Sparkles, Wand2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -25,7 +25,6 @@ import { exercicios } from "@/data/exercicios";
 import { focosTreino } from "@/data/treinos-personalizados";
 import { DIAS, useForge } from "@/lib/store";
 import { cn } from "@/lib/utils";
-import { Thumbnail } from "./Media";
 
 type ItemEditavel = {
   exercicioId: string;
@@ -54,12 +53,14 @@ export function WorkoutBuilder({
   const [variacao, setVariacao] = React.useState(0);
   const [dia, setDia] = React.useState(1);
   const [itens, setItens] = React.useState<ItemEditavel[]>([]);
+  const [modo, setModo] = React.useState<"padrao" | "personalizado">("padrao");
   const [confirmar, setConfirmar] = React.useState(false);
   const foco = focosTreino.find((item) => item.id === focoId) ?? focosTreino[0];
   const modelo = foco?.variacoes[variacao] ?? foco?.variacoes[0];
 
   const carregarModelo = React.useCallback(() => {
     setItens(criarItens(modelo?.exercicioIds ?? []));
+    setModo("padrao");
   }, [modelo]);
 
   React.useEffect(() => {
@@ -83,7 +84,7 @@ export function WorkoutBuilder({
       forge.adicionarAoDia(dia, {
         ...item,
         duracao: "",
-        observacao: `Treino personalizado — ${foco.nome}`,
+        observacao: `${modo === "padrao" ? "Recomendação FORGEFIT" : "Treino personalizado"} — ${foco.nome}`,
       });
     });
     setConfirmar(false);
@@ -101,11 +102,13 @@ export function WorkoutBuilder({
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="max-h-[94vh] overflow-y-auto sm:max-w-4xl">
           <DialogHeader>
-            <DialogTitle className="pr-7 font-display text-2xl uppercase sm:text-3xl">
-              Monte sua ficha personalizada
+            <DialogTitle className="flex flex-wrap items-center gap-2 pr-7 font-display text-2xl uppercase sm:text-3xl">
+              <Sparkles className="h-5 w-5 text-primary" aria-hidden />
+              Recomendação FORGEFIT
             </DialogTitle>
             <p className="text-sm text-muted-foreground">
-              Escolha um foco, ajuste o treino e salve no seu cronograma.
+              Escolha um foco: siga o treino recomendado como está ou personalize cada exercício
+              antes de salvar no seu cronograma.
             </p>
           </DialogHeader>
 
@@ -156,10 +159,42 @@ export function WorkoutBuilder({
                   className="h-auto min-h-12 whitespace-normal px-3 py-2 text-left"
                   onClick={() => setVariacao(indice)}
                 >
-                  {item.nome}
+                  Recomendação {indice + 1}
                 </Button>
               ))}
             </div>
+          </section>
+
+          <section
+            aria-labelledby="modo-titulo"
+            className="rounded-lg border border-border bg-elevated p-3"
+          >
+            <h3 id="modo-titulo" className="mb-2 text-sm font-semibold">
+              3. Seguir o padrão ou personalizar?
+            </h3>
+            <div className="grid grid-cols-2 gap-2">
+              <Button
+                type="button"
+                variant={modo === "padrao" ? "default" : "outline"}
+                className="h-auto min-h-11 justify-center gap-1.5 px-3 py-2"
+                onClick={() => setModo("padrao")}
+              >
+                <Sparkles className="h-4 w-4" /> Seguir recomendação
+              </Button>
+              <Button
+                type="button"
+                variant={modo === "personalizado" ? "default" : "outline"}
+                className="h-auto min-h-11 justify-center gap-1.5 px-3 py-2"
+                onClick={() => setModo("personalizado")}
+              >
+                <Wand2 className="h-4 w-4" /> Personalizar exercícios
+              </Button>
+            </div>
+            <p className="mt-2 text-xs text-muted-foreground">
+              {modo === "padrao"
+                ? "Você verá exatamente a ficha recomendada pela FORGEFIT para este foco."
+                : "Troque qualquer exercício por uma alternativa da mesma região e ajuste séries, repetições e descanso."}
+            </p>
           </section>
 
           <div className="rounded-lg border border-primary/25 bg-primary/10 px-3 py-3 text-sm">
@@ -174,56 +209,74 @@ export function WorkoutBuilder({
 
           <section aria-labelledby="ajuste-titulo">
             <h3 id="ajuste-titulo" className="mb-2 text-sm font-semibold">
-              3. Confira e ajuste os exercícios
+              4. Confira {modo === "padrao" ? "a ficha recomendada" : "e ajuste os exercícios"}
             </h3>
             <div className="space-y-2">
               {itens.map((item, indice) => {
                 const ex = exercicios.find((e) => e.id === item.exercicioId);
+                const personalizando = modo === "personalizado";
                 return (
                   <article
                     key={`${indice}-${item.exercicioId}`}
-                    className="grid gap-3 rounded-lg border border-border bg-elevated p-3 sm:grid-cols-[72px_1fr]"
+                    className="grid gap-3 rounded-lg border border-border bg-elevated p-3 sm:grid-cols-[96px_1fr]"
                   >
-                    <Thumbnail
-                      src={ex?.thumbnailUrl ?? ""}
-                      alt={ex?.nome ?? "Exercício"}
-                      className="aspect-square w-[72px] rounded-md"
-                      fallbackIcone={<Dumbbell className="h-6 w-6" />}
+                    {/* GIF ao vivo do exercício selecionado — troca junto com a seleção abaixo */}
+                    <img
+                      key={item.exercicioId}
+                      src={ex?.gifUrl || ex?.thumbnailUrl || ""}
+                      alt={`Execução: ${ex?.nome ?? "Exercício"}`}
+                      loading="lazy"
+                      className="aspect-square w-24 rounded-md bg-black object-cover"
+                      onError={(event) => {
+                        event.currentTarget.style.display = "none";
+                      }}
                     />
                     <div className="min-w-0 space-y-3">
-                      <Select
-                        value={item.exercicioId}
-                        onValueChange={(value) => atualizar(indice, { exercicioId: value })}
-                      >
-                        <SelectTrigger
-                          aria-label={`Exercício ${indice + 1}`}
-                          className="h-10 bg-background font-medium"
+                      {personalizando ? (
+                        <Select
+                          value={item.exercicioId}
+                          onValueChange={(value) => atualizar(indice, { exercicioId: value })}
                         >
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {alternativas.map((alternativa) => (
-                            <SelectItem key={alternativa.id} value={alternativa.id}>
-                              {alternativa.nome}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                          <SelectTrigger
+                            aria-label={`Exercício ${indice + 1}`}
+                            className="h-10 bg-background font-medium"
+                          >
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {alternativas.map((alternativa) => (
+                              <SelectItem key={alternativa.id} value={alternativa.id}>
+                                {alternativa.nome}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      ) : (
+                        <div className="flex items-center gap-2">
+                          <p className="font-medium">{ex?.nome ?? "Exercício"}</p>
+                          <span className="rounded-full bg-primary/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
+                            Recomendação FORGEFIT
+                          </span>
+                        </div>
+                      )}
                       <div className="grid grid-cols-3 gap-2">
                         <Campo
                           label="Séries"
                           value={item.series}
                           onChange={(value) => atualizar(indice, { series: value })}
+                          somenteLeitura={!personalizando}
                         />
                         <Campo
                           label="Repetições"
                           value={item.repeticoes}
                           onChange={(value) => atualizar(indice, { repeticoes: value })}
+                          somenteLeitura={!personalizando}
                         />
                         <Campo
                           label="Descanso"
                           value={item.descanso}
                           onChange={(value) => atualizar(indice, { descanso: value })}
+                          somenteLeitura={!personalizando}
                         />
                       </div>
                     </div>
@@ -239,7 +292,7 @@ export function WorkoutBuilder({
           >
             <div>
               <h3 id="dia-titulo" className="mb-2 text-sm font-semibold">
-                4. Em qual dia?
+                5. Em qual dia?
               </h3>
               <Select value={String(dia)} onValueChange={(value) => setDia(Number(value))}>
                 <SelectTrigger className="h-11 bg-elevated">
@@ -284,10 +337,12 @@ function Campo({
   label,
   value,
   onChange,
+  somenteLeitura,
 }: {
   label: string;
   value: string;
   onChange: (value: string) => void;
+  somenteLeitura?: boolean;
 }) {
   const id = React.useId();
   return (
@@ -296,10 +351,13 @@ function Campo({
       <Input
         id={id}
         value={value}
+        readOnly={somenteLeitura}
+        aria-readonly={somenteLeitura}
         onChange={(event) => onChange(event.target.value)}
         className={cn(
           "mt-1 h-9 bg-background px-2 text-foreground",
           label === "Repetições" && "text-xs sm:text-sm",
+          somenteLeitura && "cursor-default opacity-80",
         )}
       />
     </label>

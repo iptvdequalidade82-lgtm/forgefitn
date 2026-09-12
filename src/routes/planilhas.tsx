@@ -80,8 +80,27 @@ function Planilhas() {
     <div>
       <PageHeader
         titulo="Planilhas"
-        descricao="Cronogramas prontos para visualizar, baixar ou aplicar."
+        descricao="Recomendações prontas para seguir como estão ou personalizar com seus exercícios."
       />
+
+      <section className="mb-4 grid gap-3 border-y border-border py-4 sm:grid-cols-[1fr_auto] sm:items-center">
+        <div>
+          <div className="mb-1 flex items-center gap-2 text-primary">
+            <Sparkles className="h-4 w-4" />
+            <span className="text-xs font-semibold uppercase">Indicação do FORGEFIT</span>
+          </div>
+          <h2 className="font-display text-2xl uppercase">
+            Comece com um padrão e deixe do seu jeito
+          </h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Escolha o grupo muscular, siga a recomendação ou troque exercícios vendo o GIF de cada
+            movimento.
+          </p>
+        </div>
+        <Button className="gap-2" onClick={() => setMontadorAberto(true)}>
+          <Sparkles className="h-4 w-4" /> Receber recomendação
+        </Button>
+      </section>
 
       {todas.length === 0 ? (
         <EmptyState
@@ -132,24 +151,17 @@ function Planilhas() {
                       <p className="text-sm text-muted-foreground">{p.descricao}</p>
                     ) : null}
                     <div className="mt-auto grid gap-2 pt-2">
-                      {p.id === "pl-fichas-personalizadas" ? (
-                        <Button
-                          size="sm"
-                          className="gap-1.5"
-                          onClick={() => setMontadorAberto(true)}
-                        >
-                          <Sparkles className="h-4 w-4" /> Montar meu treino
-                        </Button>
-                      ) : (
-                        <>
-                          <Button size="sm" className="gap-1.5" onClick={() => setDetalhe(p)}>
-                            <Eye className="h-4 w-4" /> Visualizar
-                          </Button>
-                          <Button size="sm" variant="outline" onClick={() => setAplicar(p)}>
-                            Adicionar ao meu cronograma
-                          </Button>
-                        </>
-                      )}
+                      <Button size="sm" className="gap-1.5" onClick={() => setMontadorAberto(true)}>
+                        <Sparkles className="h-4 w-4" /> Usar como recomendação
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="gap-1.5"
+                        onClick={() => setDetalhe(p)}
+                      >
+                        <Eye className="h-4 w-4" /> Ver material original
+                      </Button>
                       <Button
                         size="sm"
                         variant="ghost"
