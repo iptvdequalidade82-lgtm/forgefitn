@@ -120,7 +120,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        {children}
+        <ForgeProvider>{children}</ForgeProvider>
         <Scripts />
       </body>
     </html>
@@ -132,13 +132,11 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ForgeProvider>
-        <AppShell>
-          {/* Required: nested routes render here. */}
-          <Outlet />
-        </AppShell>
-        <Toaster position="top-center" />
-      </ForgeProvider>
+      <AppShell>
+        {/* Required: nested routes render here. */}
+        <Outlet />
+      </AppShell>
+      <Toaster position="top-center" />
     </QueryClientProvider>
   );
 }
