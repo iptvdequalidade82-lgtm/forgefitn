@@ -185,7 +185,7 @@ export function WorkoutBuilder({
                     className="grid gap-3 rounded-lg border border-border bg-elevated p-3 sm:grid-cols-[72px_1fr]"
                   >
                     <Thumbnail
-                      src={ex?.thumbnailUrl}
+                      src={ex?.thumbnailUrl ?? ""}
                       alt={ex?.nome ?? "Exercício"}
                       className="aspect-square w-[72px] rounded-md"
                       fallbackIcone={<Dumbbell className="h-6 w-6" />}
