@@ -48,9 +48,7 @@ export function ExerciseCard({
             )}
           />
         </button>
-        {exercicio.exemplo ? (
-          <EtiquetaExemplo className="absolute left-2 top-2" />
-        ) : null}
+        {exercicio.exemplo ? <EtiquetaExemplo className="absolute left-2 top-2" /> : null}
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-3">
@@ -58,9 +56,7 @@ export function ExerciseCard({
           {exercicio.nome}
         </h3>
         <div className="flex flex-wrap gap-1.5">
-          <Chip className="bg-primary/15 text-primary">
-            {exercicio.grupoMuscularPrincipal}
-          </Chip>
+          <Chip className="bg-primary/15 text-primary">{exercicio.grupoMuscularPrincipal}</Chip>
           {exercicio.equipamento ? <Chip>{exercicio.equipamento}</Chip> : null}
           {exercicio.nivel ? <Chip>{exercicio.nivel}</Chip> : null}
         </div>

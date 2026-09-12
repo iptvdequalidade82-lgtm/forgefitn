@@ -74,9 +74,7 @@ function Biblioteca() {
       .filter((e) => (categoria === TODOS ? true : e.categoria === categoria))
       .filter((e) => (nivel === TODOS ? true : e.nivel === nivel))
       .filter((e) => (equipamento === TODOS ? true : e.equipamento === equipamento))
-      .filter((e) =>
-        local === TODOS ? true : e.local === local || e.local === "Ambos",
-      )
+      .filter((e) => (local === TODOS ? true : e.local === local || e.local === "Ambos"))
       .sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
   }, [busca, categoria, nivel, equipamento, local]);
 

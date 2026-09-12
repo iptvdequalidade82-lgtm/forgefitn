@@ -1,11 +1,6 @@
 import * as React from "react";
 import { Heart, Pause, Play, RotateCcw, Plus, Download } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import type { Exercicio } from "@/data/exercicios";
 import { useForge } from "@/lib/store";
@@ -122,9 +117,7 @@ export function ExerciseModal({
         ) : null}
 
         {exercicio.descricao ? (
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            {exercicio.descricao}
-          </p>
+          <p className="text-sm leading-relaxed text-muted-foreground">{exercicio.descricao}</p>
         ) : null}
 
         {exercicio.tags.length ? (

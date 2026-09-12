@@ -22,12 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -132,7 +127,9 @@ function Planejar() {
 
       <section className="no-print mb-5 grid gap-3 border-y border-border py-4 sm:grid-cols-[1fr_auto] sm:items-center">
         <div>
-          <h2 className="font-display text-xl font-semibold uppercase">Precisa de ajuda para começar?</h2>
+          <h2 className="font-display text-xl font-semibold uppercase">
+            Precisa de ajuda para começar?
+          </h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Escolha um treino recomendado e salve todos os exercícios de uma vez.
           </p>
@@ -281,12 +278,8 @@ function Planejar() {
                         aria-hidden
                       />
                       <div className="min-w-0">
-                        <p className="truncate font-medium">
-                          {ex?.nome ?? "Exercício removido"}
-                        </p>
-                        {ex ? (
-                          <Chip className="mt-1">{ex.grupoMuscularPrincipal}</Chip>
-                        ) : null}
+                        <p className="truncate font-medium">{ex?.nome ?? "Exercício removido"}</p>
+                        {ex ? <Chip className="mt-1">{ex.grupoMuscularPrincipal}</Chip> : null}
                       </div>
                     </div>
                     <div className="flex shrink-0 items-center gap-1 no-print">
@@ -337,9 +330,7 @@ function Planejar() {
                     <CampoItem
                       label="Repetições"
                       valor={item.repeticoes}
-                      onChange={(v) =>
-                        forge.atualizarItem(dia, item.uid, { repeticoes: v })
-                      }
+                      onChange={(v) => forge.atualizarItem(dia, item.uid, { repeticoes: v })}
                     />
                     <CampoItem
                       label="Duração"
@@ -349,9 +340,7 @@ function Planejar() {
                     <CampoItem
                       label="Descanso"
                       valor={item.descanso}
-                      onChange={(v) =>
-                        forge.atualizarItem(dia, item.uid, { descanso: v })
-                      }
+                      onChange={(v) => forge.atualizarItem(dia, item.uid, { descanso: v })}
                     />
                   </div>
 
@@ -390,9 +379,7 @@ function Planejar() {
         {/* Refeições planejadas */}
         {diaAtual.refeicoes.length > 0 ? (
           <div className="mt-6">
-            <h3 className="mb-2 font-display text-lg font-semibold uppercase">
-              Refeições do dia
-            </h3>
+            <h3 className="mb-2 font-display text-lg font-semibold uppercase">Refeições do dia</h3>
             <ul className="space-y-2">
               {diaAtual.refeicoes.map((r) => {
                 const rec = receitas.find((x) => x.id === r.receitaId);
@@ -497,9 +484,7 @@ function Planejar() {
         itens={diaAtual.itens}
         nomeDia={DIAS[dia - 1] ?? ""}
         onOpenChange={setTreinoAberto}
-        onToggleItem={(uid, valor) =>
-          forge.atualizarItem(dia, uid, { concluido: valor })
-        }
+        onToggleItem={(uid, valor) => forge.atualizarItem(dia, uid, { concluido: valor })}
         onFinalizar={() => {
           forge.marcarDiaConcluido(dia, true);
           toast.success("Treino finalizado");
@@ -572,9 +557,7 @@ function SeletorExercicios({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle className="font-display text-2xl uppercase">
-            Adicionar exercício
-          </DialogTitle>
+          <DialogTitle className="font-display text-2xl uppercase">Adicionar exercício</DialogTitle>
         </DialogHeader>
         <div className="relative">
           <Search

@@ -89,9 +89,7 @@ function Planilhas() {
             <Sparkles className="h-4 w-4" />
             <span className="text-xs font-semibold uppercase">Comece por aqui</span>
           </div>
-          <h2 className="font-display text-2xl uppercase">
-            Monte seu treino passo a passo
-          </h2>
+          <h2 className="font-display text-2xl uppercase">Monte seu treino passo a passo</h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Escolha a região do corpo, use o modelo como está ou faça alterações. Depois, salve no
             dia da semana desejado.
