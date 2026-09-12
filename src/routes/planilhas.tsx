@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { Download, FileSpreadsheet, Heart, Eye } from "lucide-react";
+import { Download, FileSpreadsheet, Heart, Eye, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -26,6 +26,7 @@ import { PageHeader, Chip, EtiquetaExemplo, EmptyState } from "@/components/forg
 import { Thumbnail } from "@/components/forge/Media";
 import { baixarArquivo } from "@/lib/download";
 import { cn } from "@/lib/utils";
+import { WorkoutBuilder } from "@/components/forge/WorkoutBuilder";
 
 export const Route = createFileRoute("/planilhas")({
   head: () => ({
@@ -50,6 +51,7 @@ function Planilhas() {
   const forge = useForge();
   const [detalhe, setDetalhe] = React.useState<Planilha | null>(null);
   const [aplicar, setAplicar] = React.useState<Planilha | null>(null);
+  const [montadorAberto, setMontadorAberto] = React.useState(false);
 
   const aplicarPlanilha = (p: Planilha) => {
     if (!p.estrutura?.length) {
@@ -135,16 +137,24 @@ function Planilhas() {
                       <p className="text-sm text-muted-foreground">{p.descricao}</p>
                     ) : null}
                     <div className="mt-auto grid gap-2 pt-2">
-                      <Button size="sm" className="gap-1.5" onClick={() => setDetalhe(p)}>
-                        <Eye className="h-4 w-4" /> Visualizar
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => setAplicar(p)}
-                      >
-                        Adicionar ao meu cronograma
-                      </Button>
+                      {p.id === "pl-fichas-personalizadas" ? (
+                        <Button size="sm" className="gap-1.5" onClick={() => setMontadorAberto(true)}>
+                          <Sparkles className="h-4 w-4" /> Montar meu treino
+                        </Button>
+                      ) : (
+                        <>
+                          <Button size="sm" className="gap-1.5" onClick={() => setDetalhe(p)}>
+                            <Eye className="h-4 w-4" /> Visualizar
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => setAplicar(p)}
+                          >
+                            Adicionar ao meu cronograma
+                          </Button>
+                        </>
+                      )}
                       <Button
                         size="sm"
                         variant="ghost"
@@ -227,6 +237,8 @@ function Planilhas() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <WorkoutBuilder open={montadorAberto} onOpenChange={setMontadorAberto} />
     </div>
   );
 }
