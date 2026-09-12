@@ -103,11 +103,13 @@ export function WorkoutBuilder({
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="max-h-[94vh] overflow-y-auto sm:max-w-4xl">
           <DialogHeader>
-            <DialogTitle className="pr-7 font-display text-2xl uppercase sm:text-3xl">
-              Monte sua ficha personalizada
+            <DialogTitle className="flex flex-wrap items-center gap-2 pr-7 font-display text-2xl uppercase sm:text-3xl">
+              <Sparkles className="h-5 w-5 text-primary" aria-hidden />
+              Recomendação FORGEFIT
             </DialogTitle>
             <p className="text-sm text-muted-foreground">
-              Escolha um foco, ajuste o treino e salve no seu cronograma.
+              Escolha um foco: siga o treino recomendado como está ou personalize cada exercício
+              antes de salvar no seu cronograma.
             </p>
           </DialogHeader>
 
@@ -164,6 +166,35 @@ export function WorkoutBuilder({
             </div>
           </section>
 
+          <section aria-labelledby="modo-titulo" className="rounded-lg border border-border bg-elevated p-3">
+            <h3 id="modo-titulo" className="mb-2 text-sm font-semibold">
+              3. Seguir o padrão ou personalizar?
+            </h3>
+            <div className="grid grid-cols-2 gap-2">
+              <Button
+                type="button"
+                variant={modo === "padrao" ? "default" : "outline"}
+                className="h-auto min-h-11 justify-center gap-1.5 px-3 py-2"
+                onClick={() => setModo("padrao")}
+              >
+                <Sparkles className="h-4 w-4" /> Seguir recomendação
+              </Button>
+              <Button
+                type="button"
+                variant={modo === "personalizado" ? "default" : "outline"}
+                className="h-auto min-h-11 justify-center gap-1.5 px-3 py-2"
+                onClick={() => setModo("personalizado")}
+              >
+                <Wand2 className="h-4 w-4" /> Personalizar exercícios
+              </Button>
+            </div>
+            <p className="mt-2 text-xs text-muted-foreground">
+              {modo === "padrao"
+                ? "Você verá exatamente a ficha recomendada pela FORGEFIT para este foco."
+                : "Troque qualquer exercício por uma alternativa da mesma região e ajuste séries, repetições e descanso."}
+            </p>
+          </section>
+
           <div className="rounded-lg border border-primary/25 bg-primary/10 px-3 py-3 text-sm">
             <div className="flex gap-2">
               <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
@@ -176,7 +207,7 @@ export function WorkoutBuilder({
 
           <section aria-labelledby="ajuste-titulo">
             <h3 id="ajuste-titulo" className="mb-2 text-sm font-semibold">
-              3. Confira e ajuste os exercícios
+              4. Confira {modo === "padrao" ? "a ficha recomendada" : "e ajuste os exercícios"}
             </h3>
             <div className="space-y-2">
               {itens.map((item, indice) => {
@@ -241,7 +272,7 @@ export function WorkoutBuilder({
           >
             <div>
               <h3 id="dia-titulo" className="mb-2 text-sm font-semibold">
-                4. Em qual dia?
+                5. Em qual dia?
               </h3>
               <Select value={String(dia)} onValueChange={(value) => setDia(Number(value))}>
                 <SelectTrigger className="h-11 bg-elevated">
