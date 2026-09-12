@@ -200,12 +200,9 @@ export function ForgeProvider({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     if (!hidratado) return;
     try {
-      const atual = localStorage.getItem(STORAGE_KEY);
-      if (atual) {
-        const valido = lerBackup(JSON.parse(atual));
-        if (valido) localStorage.setItem(STORAGE_BACKUP_KEY, atual);
-      }
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      const atual = JSON.stringify(state);
+      localStorage.setItem(STORAGE_BACKUP_KEY, atual);
+      localStorage.setItem(STORAGE_KEY, atual);
       setSituacaoSalvamento("salvo");
       setUltimoSalvamento(new Date());
     } catch {
