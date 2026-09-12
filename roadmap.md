@@ -10,5 +10,5 @@
 - [x] Unificar fichas em recomendações guiadas
 - [x] Permitir seguir o padrão ou personalizar
 - [x] Exibir o GIF do exercício escolhido
-- [ ] Validar o fluxo atualizado
+- [x] Validar o fluxo atualizado
 
