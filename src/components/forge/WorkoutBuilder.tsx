@@ -165,7 +165,10 @@ export function WorkoutBuilder({
             </div>
           </section>
 
-          <section aria-labelledby="modo-titulo" className="rounded-lg border border-border bg-elevated p-3">
+          <section
+            aria-labelledby="modo-titulo"
+            className="rounded-lg border border-border bg-elevated p-3"
+          >
             <h3 id="modo-titulo" className="mb-2 text-sm font-semibold">
               3. Seguir o padrão ou personalizar?
             </h3>

@@ -7,8 +7,8 @@
 
 ## Recomendação FORGEFIT
 
-- [ ] Unificar fichas em recomendações guiadas
-- [ ] Permitir seguir o padrão ou personalizar
-- [ ] Exibir o GIF do exercício escolhido
+- [x] Unificar fichas em recomendações guiadas
+- [x] Permitir seguir o padrão ou personalizar
+- [x] Exibir o GIF do exercício escolhido
 - [ ] Validar o fluxo atualizado
 

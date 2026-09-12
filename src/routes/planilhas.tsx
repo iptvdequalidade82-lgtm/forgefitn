@@ -89,9 +89,12 @@ function Planilhas() {
             <Sparkles className="h-4 w-4" />
             <span className="text-xs font-semibold uppercase">Indicação do FORGEFIT</span>
           </div>
-          <h2 className="font-display text-2xl uppercase">Comece com um padrão e deixe do seu jeito</h2>
+          <h2 className="font-display text-2xl uppercase">
+            Comece com um padrão e deixe do seu jeito
+          </h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Escolha o grupo muscular, siga a recomendação ou troque exercícios vendo o GIF de cada movimento.
+            Escolha o grupo muscular, siga a recomendação ou troque exercícios vendo o GIF de cada
+            movimento.
           </p>
         </div>
         <Button className="gap-2" onClick={() => setMontadorAberto(true)}>
@@ -151,7 +154,12 @@ function Planilhas() {
                       <Button size="sm" className="gap-1.5" onClick={() => setMontadorAberto(true)}>
                         <Sparkles className="h-4 w-4" /> Usar como recomendação
                       </Button>
-                      <Button size="sm" variant="outline" className="gap-1.5" onClick={() => setDetalhe(p)}>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="gap-1.5"
+                        onClick={() => setDetalhe(p)}
+                      >
                         <Eye className="h-4 w-4" /> Ver material original
                       </Button>
                       <Button
