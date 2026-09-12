@@ -25,7 +25,6 @@ import { exercicios } from "@/data/exercicios";
 import { focosTreino } from "@/data/treinos-personalizados";
 import { DIAS, useForge } from "@/lib/store";
 import { cn } from "@/lib/utils";
-import { Thumbnail } from "./Media";
 
 type ItemEditavel = {
   exercicioId: string;
