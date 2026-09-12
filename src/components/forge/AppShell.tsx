@@ -24,10 +24,10 @@ export const navPrincipal: NavItem[] = [
   { to: "/planilhas", label: "Treinos", icon: FileSpreadsheet },
   { to: "/planejar", label: "Meu treino", icon: CalendarDays },
   { to: "/exercicios", label: "Execuções", icon: Dumbbell },
-  { to: "/receitas", label: "Receitas", icon: UtensilsCrossed },
 ];
 
 export const navSecundaria: NavItem[] = [
+  { to: "/receitas", label: "Receitas", icon: UtensilsCrossed },
   { to: "/desafio", label: "Desafio 24 dias", icon: Flame },
   { to: "/downloads", label: "Downloads", icon: Download },
   { to: "/favoritos", label: "Favoritos", icon: Heart },
@@ -93,7 +93,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         aria-label="Navegação inferior"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
       >
-        <ul className="grid grid-cols-6">
+        <ul className="grid grid-cols-5">
           {navPrincipal.map((item) => (
             <li key={item.to}>
               <BottomLink item={item} active={isActive(item.to)} />

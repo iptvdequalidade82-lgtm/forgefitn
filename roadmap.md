@@ -15,8 +15,8 @@
 
 ## Jornada de treinos mais clara
 
-- [ ] Renomear e reorganizar a navegação entre Execuções, Treinos e Meu treino
-- [ ] Simplificar a tela de Treinos e separar materiais de apoio
-- [ ] Melhorar instruções, campos e acesso aos GIFs no montador
-- [ ] Melhorar o cronograma para iniciantes e permitir ver execuções
+- [x] Renomear e reorganizar a navegação entre Execuções, Treinos e Meu treino
+- [x] Simplificar a tela de Treinos e separar materiais de apoio
+- [x] Melhorar instruções, campos e acesso aos GIFs no montador
+- [x] Melhorar o cronograma para iniciantes e permitir ver execuções
 - [ ] Corrigir categorias repetidas e validar celular/computador
