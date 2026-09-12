@@ -53,10 +53,9 @@ function Configuracoes() {
         <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
         <p className="text-sm leading-relaxed text-muted-foreground">
           <strong className="text-foreground">Seus dados ficam somente neste navegador.</strong>{" "}
-          Cronograma, favoritos e progresso do desafio não são enviados para nenhum
-          servidor. Se você limpar os dados do navegador, trocar de aparelho ou usar uma
-          aba anônima, essas informações não aparecerão. Faça uma exportação para guardar
-          um backup.
+          Cronograma, favoritos e progresso do desafio não são enviados para nenhum servidor. Se
+          você limpar os dados do navegador, trocar de aparelho ou usar uma aba anônima, essas
+          informações não aparecerão. Faça uma exportação para guardar um backup.
         </p>
       </section>
 
@@ -95,11 +94,7 @@ function Configuracoes() {
           >
             <Download className="h-4 w-4" /> Baixar cópia
           </Button>
-          <Button
-            variant="outline"
-            className="gap-1.5"
-            onClick={() => inputRef.current?.click()}
-          >
+          <Button variant="outline" className="gap-1.5" onClick={() => inputRef.current?.click()}>
             <Upload className="h-4 w-4" /> Restaurar cópia
           </Button>
           <Button
@@ -147,8 +142,8 @@ function Configuracoes() {
           <AlertDialogHeader>
             <AlertDialogTitle>Apagar todos os seus dados?</AlertDialogTitle>
             <AlertDialogDescription>
-              Cronograma, favoritos e progresso do desafio serão removidos deste navegador.
-              Esta ação não pode ser desfeita.
+              Cronograma, favoritos e progresso do desafio serão removidos deste navegador. Esta
+              ação não pode ser desfeita.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

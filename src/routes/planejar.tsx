@@ -112,7 +112,10 @@ function Planejar() {
               size="sm"
               className="gap-1.5 no-print"
               onClick={() => {
-                baixarJson(criarBackup(state), `forgefit-backup-${new Date().toISOString().slice(0, 10)}.json`);
+                baixarJson(
+                  criarBackup(state),
+                  `forgefit-backup-${new Date().toISOString().slice(0, 10)}.json`,
+                );
                 toast.success("Cópia de segurança baixada");
               }}
             >
@@ -152,7 +155,11 @@ function Planejar() {
         </div>
         {forge.ultimoSalvamento ? (
           <span className="shrink-0 text-xs text-muted-foreground" aria-live="polite">
-            Salvo às {forge.ultimoSalvamento.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
+            Salvo às{" "}
+            {forge.ultimoSalvamento.toLocaleTimeString("pt-BR", {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
           </span>
         ) : null}
       </section>
@@ -518,8 +525,8 @@ function Planejar() {
           <AlertDialogHeader>
             <AlertDialogTitle>Restaurar esta cópia?</AlertDialogTitle>
             <AlertDialogDescription>
-              O treino atual deste aparelho será substituído pela cópia escolhida. Antes disso,
-              você pode cancelar e baixar uma cópia do treino atual.
+              O treino atual deste aparelho será substituído pela cópia escolhida. Antes disso, você
+              pode cancelar e baixar uma cópia do treino atual.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
