@@ -212,51 +212,69 @@ export function WorkoutBuilder({
             <div className="space-y-2">
               {itens.map((item, indice) => {
                 const ex = exercicios.find((e) => e.id === item.exercicioId);
+                const personalizando = modo === "personalizado";
                 return (
                   <article
                     key={`${indice}-${item.exercicioId}`}
-                    className="grid gap-3 rounded-lg border border-border bg-elevated p-3 sm:grid-cols-[72px_1fr]"
+                    className="grid gap-3 rounded-lg border border-border bg-elevated p-3 sm:grid-cols-[96px_1fr]"
                   >
-                    <Thumbnail
-                      src={ex?.thumbnailUrl ?? ""}
-                      alt={ex?.nome ?? "Exercício"}
-                      className="aspect-square w-[72px] rounded-md"
-                      fallbackIcone={<Dumbbell className="h-6 w-6" />}
+                    {/* GIF ao vivo do exercício selecionado — troca junto com a seleção abaixo */}
+                    <img
+                      key={item.exercicioId}
+                      src={ex?.gifUrl || ex?.thumbnailUrl || ""}
+                      alt={`Execução: ${ex?.nome ?? "Exercício"}`}
+                      loading="lazy"
+                      className="aspect-square w-24 rounded-md bg-black object-cover"
+                      onError={(event) => {
+                        event.currentTarget.style.display = "none";
+                      }}
                     />
                     <div className="min-w-0 space-y-3">
-                      <Select
-                        value={item.exercicioId}
-                        onValueChange={(value) => atualizar(indice, { exercicioId: value })}
-                      >
-                        <SelectTrigger
-                          aria-label={`Exercício ${indice + 1}`}
-                          className="h-10 bg-background font-medium"
+                      {personalizando ? (
+                        <Select
+                          value={item.exercicioId}
+                          onValueChange={(value) => atualizar(indice, { exercicioId: value })}
                         >
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {alternativas.map((alternativa) => (
-                            <SelectItem key={alternativa.id} value={alternativa.id}>
-                              {alternativa.nome}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                          <SelectTrigger
+                            aria-label={`Exercício ${indice + 1}`}
+                            className="h-10 bg-background font-medium"
+                          >
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {alternativas.map((alternativa) => (
+                              <SelectItem key={alternativa.id} value={alternativa.id}>
+                                {alternativa.nome}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      ) : (
+                        <div className="flex items-center gap-2">
+                          <p className="font-medium">{ex?.nome ?? "Exercício"}</p>
+                          <span className="rounded-full bg-primary/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
+                            Recomendação FORGEFIT
+                          </span>
+                        </div>
+                      )}
                       <div className="grid grid-cols-3 gap-2">
                         <Campo
                           label="Séries"
                           value={item.series}
                           onChange={(value) => atualizar(indice, { series: value })}
+                          somenteLeitura={!personalizando}
                         />
                         <Campo
                           label="Repetições"
                           value={item.repeticoes}
                           onChange={(value) => atualizar(indice, { repeticoes: value })}
+                          somenteLeitura={!personalizando}
                         />
                         <Campo
                           label="Descanso"
                           value={item.descanso}
                           onChange={(value) => atualizar(indice, { descanso: value })}
+                          somenteLeitura={!personalizando}
                         />
                       </div>
                     </div>
