@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, ChevronRight, RotateCcw, Sparkles, Wand2 } from "lucide-react";
+import { Check, ChevronRight, Eye, RotateCcw, Sparkles, Wand2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -25,6 +25,7 @@ import { exercicios } from "@/data/exercicios";
 import { focosTreino } from "@/data/treinos-personalizados";
 import { DIAS, useForge } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import { ExerciseModal } from "./ExerciseModal";
 
 type ItemEditavel = {
   exercicioId: string;
@@ -55,6 +56,7 @@ export function WorkoutBuilder({
   const [itens, setItens] = React.useState<ItemEditavel[]>([]);
   const [modo, setModo] = React.useState<"padrao" | "personalizado">("padrao");
   const [confirmar, setConfirmar] = React.useState(false);
+  const [execucaoId, setExecucaoId] = React.useState<string | null>(null);
   const foco = focosTreino.find((item) => item.id === focoId) ?? focosTreino[0];
   const modelo = foco?.variacoes[variacao] ?? foco?.variacoes[0];
 
@@ -114,7 +116,7 @@ export function WorkoutBuilder({
 
           <section aria-labelledby="foco-titulo">
             <h3 id="foco-titulo" className="mb-2 text-sm font-semibold">
-              1. Qual treino você quer fazer?
+              1. Escolha a região do corpo
             </h3>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               {focosTreino.map((item) => (
@@ -138,7 +140,7 @@ export function WorkoutBuilder({
             <div className="mb-2 flex items-end justify-between gap-3">
               <div>
                 <h3 id="modelo-titulo" className="text-sm font-semibold">
-                  2. Escolha uma variação
+                  2. Escolha um modelo de treino
                 </h3>
                 <p className="text-xs text-muted-foreground">{foco.descricao}</p>
               </div>
@@ -159,7 +161,7 @@ export function WorkoutBuilder({
                   className="h-auto min-h-12 whitespace-normal px-3 py-2 text-left"
                   onClick={() => setVariacao(indice)}
                 >
-                  Recomendação {indice + 1}
+                  {item.nome}
                 </Button>
               ))}
             </div>
@@ -170,7 +172,7 @@ export function WorkoutBuilder({
             className="rounded-lg border border-border bg-elevated p-3"
           >
             <h3 id="modo-titulo" className="mb-2 text-sm font-semibold">
-              3. Seguir o padrão ou personalizar?
+              3. Como você prefere usar este treino?
             </h3>
             <div className="grid grid-cols-2 gap-2">
               <Button
@@ -179,7 +181,7 @@ export function WorkoutBuilder({
                 className="h-auto min-h-11 justify-center gap-1.5 px-3 py-2"
                 onClick={() => setModo("padrao")}
               >
-                <Sparkles className="h-4 w-4" /> Seguir recomendação
+                <Sparkles className="h-4 w-4" /> Usar como está
               </Button>
               <Button
                 type="button"
@@ -187,7 +189,7 @@ export function WorkoutBuilder({
                 className="h-auto min-h-11 justify-center gap-1.5 px-3 py-2"
                 onClick={() => setModo("personalizado")}
               >
-                <Wand2 className="h-4 w-4" /> Personalizar exercícios
+                <Wand2 className="h-4 w-4" /> Fazer alterações
               </Button>
             </div>
             <p className="mt-2 text-xs text-muted-foreground">
@@ -201,15 +203,15 @@ export function WorkoutBuilder({
             <div className="flex gap-2">
               <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
               <p>
-                <strong>Antes do treino:</strong> faça 2–3 séries de alongamento do grupo, segurando
-                por 30 segundos e descansando 30 segundos.
+                <strong>Antes do treino:</strong> confira a orientação da ficha e respeite seus
+                limites. Se sentir dor, pare o exercício.
               </p>
             </div>
           </div>
 
           <section aria-labelledby="ajuste-titulo">
             <h3 id="ajuste-titulo" className="mb-2 text-sm font-semibold">
-              4. Confira {modo === "padrao" ? "a ficha recomendada" : "e ajuste os exercícios"}
+              4. Confira cada exercício
             </h3>
             <div className="space-y-2">
               {itens.map((item, indice) => {
@@ -252,14 +254,23 @@ export function WorkoutBuilder({
                           </SelectContent>
                         </Select>
                       ) : (
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
                           <p className="font-medium">{ex?.nome ?? "Exercício"}</p>
                           <span className="rounded-full bg-primary/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
                             Recomendação FORGEFIT
                           </span>
                         </div>
                       )}
-                      <div className="grid grid-cols-3 gap-2">
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        className="gap-1.5"
+                        onClick={() => setExecucaoId(item.exercicioId)}
+                      >
+                        <Eye className="h-4 w-4" /> Ver como fazer
+                      </Button>
+                      <div className="grid gap-2 sm:grid-cols-3">
                         <Campo
                           label="Séries"
                           value={item.series}
@@ -292,7 +303,7 @@ export function WorkoutBuilder({
           >
             <div>
               <h3 id="dia-titulo" className="mb-2 text-sm font-semibold">
-                5. Em qual dia?
+                5. Escolha o dia da semana
               </h3>
               <Select value={String(dia)} onValueChange={(value) => setDia(Number(value))}>
                 <SelectTrigger className="h-11 bg-elevated">
@@ -308,7 +319,7 @@ export function WorkoutBuilder({
               </Select>
             </div>
             <Button size="lg" className="gap-2" onClick={solicitarAplicacao}>
-              Adicionar ao cronograma <ChevronRight className="h-4 w-4" />
+              Salvar no meu treino <ChevronRight className="h-4 w-4" />
             </Button>
           </section>
         </DialogContent>
@@ -329,6 +340,11 @@ export function WorkoutBuilder({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      <ExerciseModal
+        exercicio={exercicios.find((item) => item.id === execucaoId) ?? null}
+        open={Boolean(execucaoId)}
+        onOpenChange={(aberto) => !aberto && setExecucaoId(null)}
+      />
     </>
   );
 }
@@ -354,6 +370,9 @@ function Campo({
         readOnly={somenteLeitura}
         aria-readonly={somenteLeitura}
         onChange={(event) => onChange(event.target.value)}
+        placeholder={
+          label === "Séries" ? "Ex.: 3" : label === "Repetições" ? "Ex.: 10" : "Ex.: 60 s"
+        }
         className={cn(
           "mt-1 h-9 bg-background px-2 text-foreground",
           label === "Repetições" && "text-xs sm:text-sm",

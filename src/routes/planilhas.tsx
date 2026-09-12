@@ -26,13 +26,13 @@ import { WorkoutBuilder } from "@/components/forge/WorkoutBuilder";
 export const Route = createFileRoute("/planilhas")({
   head: () => ({
     meta: [
-      { title: "Planilhas — FORGEFIT" },
+      { title: "Treinos recomendados — FORGEFIT" },
       {
         name: "description",
         content:
-          "Planilhas e cronogramas prontos do ForgeFit: visualize, baixe ou aplique no seu cronograma.",
+          "Escolha um treino recomendado, adapte exercícios e salve séries, repetições e descanso na sua semana.",
       },
-      { property: "og:title", content: "Planilhas — FORGEFIT" },
+      { property: "og:title", content: "Treinos recomendados — FORGEFIT" },
       {
         property: "og:description",
         content: "Cronogramas prontos para baixar ou aplicar na sua semana.",
@@ -79,28 +79,35 @@ function Planilhas() {
   return (
     <div>
       <PageHeader
-        titulo="Planilhas"
-        descricao="Recomendações prontas para seguir como estão ou personalizar com seus exercícios."
+        titulo="Treinos"
+        descricao="Escolha uma recomendação, confira os movimentos e salve tudo no dia certo."
       />
 
-      <section className="mb-4 grid gap-3 border-y border-border py-4 sm:grid-cols-[1fr_auto] sm:items-center">
+      <section className="mb-6 grid gap-4 border-y border-border py-5 sm:grid-cols-[1fr_auto] sm:items-center">
         <div>
           <div className="mb-1 flex items-center gap-2 text-primary">
             <Sparkles className="h-4 w-4" />
-            <span className="text-xs font-semibold uppercase">Indicação do FORGEFIT</span>
+            <span className="text-xs font-semibold uppercase">Comece por aqui</span>
           </div>
           <h2 className="font-display text-2xl uppercase">
-            Comece com um padrão e deixe do seu jeito
+            Monte seu treino passo a passo
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Escolha o grupo muscular, siga a recomendação ou troque exercícios vendo o GIF de cada
-            movimento.
+            Escolha a região do corpo, use o modelo como está ou faça alterações. Depois, salve no
+            dia da semana desejado.
           </p>
         </div>
         <Button className="gap-2" onClick={() => setMontadorAberto(true)}>
-          <Sparkles className="h-4 w-4" /> Receber recomendação
+          <Sparkles className="h-4 w-4" /> Montar meu treino
         </Button>
       </section>
+
+      <div className="mb-3">
+        <h2 className="font-display text-2xl font-semibold uppercase">Materiais de apoio</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Consulte ou baixe as fichas originais. Para usar no dia a dia, prefira o montador acima.
+        </p>
+      </div>
 
       {todas.length === 0 ? (
         <EmptyState
@@ -152,7 +159,7 @@ function Planilhas() {
                     ) : null}
                     <div className="mt-auto grid gap-2 pt-2">
                       <Button size="sm" className="gap-1.5" onClick={() => setMontadorAberto(true)}>
-                        <Sparkles className="h-4 w-4" /> Usar como recomendação
+                        <Sparkles className="h-4 w-4" /> Montar treino interativo
                       </Button>
                       <Button
                         size="sm"
