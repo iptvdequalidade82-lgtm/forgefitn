@@ -66,9 +66,13 @@ export function WorkoutBuilder({
   const [modo, setModo] = React.useState<"padrao" | "personalizado">("padrao");
   const [confirmar, setConfirmar] = React.useState(false);
   const [execucaoId, setExecucaoId] = React.useState<string | null>(null);
-  const focosSelecionados = focoIds
-    .map((id) => focosTreino.find((item) => item.id === id))
-    .filter((item): item is (typeof focosTreino)[number] => Boolean(item));
+  const focosSelecionados = React.useMemo(
+    () =>
+      focoIds
+        .map((id) => focosTreino.find((item) => item.id === id))
+        .filter((item): item is (typeof focosTreino)[number] => Boolean(item)),
+    [focoIds],
+  );
   const nomesFocos = focosSelecionados.map((item) => item.nome).join(" + ");
 
   const carregarModelo = React.useCallback(() => {
