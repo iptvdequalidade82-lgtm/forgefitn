@@ -17,6 +17,8 @@ import {
   GripVertical,
   Eye,
   Sparkles,
+  CheckCircle2,
+  ShieldCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,7 +42,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { DIAS, DIAS_CURTOS, useForge } from "@/lib/store";
+import { criarBackup, DIAS, DIAS_CURTOS, lerBackup, useForge } from "@/lib/store";
+import type { ForgeState } from "@/lib/store";
 import { exercicios } from "@/data/exercicios";
 import { categorias } from "@/data/categorias";
 import { receitas } from "@/data/receitas";
@@ -83,6 +86,7 @@ function Planejar() {
   const [treinoAberto, setTreinoAberto] = React.useState(false);
   const [montadorAberto, setMontadorAberto] = React.useState(false);
   const [execucao, setExecucao] = React.useState<Exercicio | null>(null);
+  const [backupPendente, setBackupPendente] = React.useState<ForgeState | null>(null);
   const [arrastando, setArrastando] = React.useState<number | null>(null);
   const inputImport = React.useRef<HTMLInputElement>(null);
 
@@ -107,11 +111,15 @@ function Planejar() {
               variant="outline"
               size="sm"
               className="gap-1.5 no-print"
-              onClick={() =>
-                baixarJson({ cronograma: state.cronograma }, "forgefit-cronograma.json")
-              }
+              onClick={() => {
+                baixarJson(
+                  criarBackup(state),
+                  `forgefit-backup-${new Date().toISOString().slice(0, 10)}.json`,
+                );
+                toast.success("Cópia de segurança baixada");
+              }}
             >
-              <Download className="h-4 w-4" /> Exportar
+              <Download className="h-4 w-4" /> Baixar cópia
             </Button>
             <Button
               variant="outline"
@@ -119,11 +127,42 @@ function Planejar() {
               className="gap-1.5 no-print"
               onClick={() => inputImport.current?.click()}
             >
-              <Upload className="h-4 w-4" /> Importar
+              <Upload className="h-4 w-4" /> Restaurar cópia
             </Button>
           </>
         }
       />
+
+      <section className="no-print mb-5 flex flex-col gap-3 border-y border-border py-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-start gap-3">
+          {forge.situacaoSalvamento === "indisponivel" ? (
+            <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-destructive" aria-hidden />
+          ) : (
+            <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
+          )}
+          <div>
+            <p className="text-sm font-semibold">
+              {forge.situacaoSalvamento === "indisponivel"
+                ? "Não foi possível salvar neste aparelho"
+                : "Seu treino está salvo neste aparelho"}
+            </p>
+            <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
+              {forge.situacaoSalvamento === "indisponivel"
+                ? "Baixe uma cópia para não perder suas alterações."
+                : "Cada navegador guarda um treino separado. Para trocar de aparelho, baixe uma cópia."}
+            </p>
+          </div>
+        </div>
+        {forge.ultimoSalvamento ? (
+          <span className="shrink-0 text-xs text-muted-foreground" aria-live="polite">
+            Salvo às{" "}
+            {forge.ultimoSalvamento.toLocaleTimeString("pt-BR", {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </span>
+        ) : null}
+      </section>
 
       <section className="no-print mb-5 grid gap-3 border-y border-border py-4 sm:grid-cols-[1fr_auto] sm:items-center">
         <div>
@@ -151,10 +190,9 @@ function Planejar() {
           if (!file) return;
           try {
             const dados = JSON.parse(await file.text());
-            const cron = dados?.cronograma ?? dados?.state?.cronograma;
-            if (!cron) throw new Error("formato");
-            forge.setState((s) => ({ ...s, cronograma: cron }));
-            toast.success("Cronograma importado");
+            const restaurado = lerBackup(dados);
+            if (!restaurado) throw new Error("formato");
+            setBackupPendente(restaurado);
           } catch {
             toast.error("Falha ao importar", {
               description: "O arquivo não parece ser um backup válido do ForgeFit.",
@@ -474,6 +512,36 @@ function Planejar() {
               }}
             >
               Limpar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog
+        open={Boolean(backupPendente)}
+        onOpenChange={(aberto) => !aberto && setBackupPendente(null)}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Restaurar esta cópia?</AlertDialogTitle>
+            <AlertDialogDescription>
+              O treino atual deste aparelho será substituído pela cópia escolhida. Antes disso, você
+              pode cancelar e baixar uma cópia do treino atual.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (!backupPendente || !forge.importar(backupPendente)) {
+                  toast.error("Não foi possível restaurar a cópia");
+                  return;
+                }
+                setBackupPendente(null);
+                toast.success("Treino restaurado com sucesso");
+              }}
+            >
+              Restaurar meu treino
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

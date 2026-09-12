@@ -1,6 +1,9 @@
 import * as React from "react";
 
 export const STORAGE_KEY = "forgefit:v1";
+export const STORAGE_BACKUP_KEY = "forgefit:v1:backup";
+
+export type SituacaoSalvamento = "carregando" | "salvo" | "indisponivel";
 
 export type ItemCronograma = {
   uid: string;
@@ -31,6 +34,13 @@ export type ForgeState = {
   favoritos: { exercicios: string[]; receitas: string[]; planilhas: string[] };
   desafio: { concluidos: number[]; ultimoDia: number };
   prefs: { reduceMotion: boolean };
+};
+
+export type ForgeBackup = {
+  aplicativo: "FORGEFIT";
+  versaoBackup: 1;
+  criadoEm: string;
+  dados: ForgeState;
 };
 
 export const DIAS = [
@@ -105,9 +115,39 @@ export function normalizar(raw: unknown): ForgeState {
   return out;
 }
 
+function possuiCronograma(raw: unknown): boolean {
+  if (!raw || typeof raw !== "object") return false;
+  const valor = raw as Record<string, unknown>;
+  return Boolean(valor["cronograma"] && typeof valor["cronograma"] === "object");
+}
+
+export function criarBackup(state: ForgeState): ForgeBackup {
+  return {
+    aplicativo: "FORGEFIT",
+    versaoBackup: 1,
+    criadoEm: new Date().toISOString(),
+    dados: state,
+  };
+}
+
+export function lerBackup(raw: unknown): ForgeState | null {
+  if (!raw || typeof raw !== "object") return null;
+  const valor = raw as Record<string, unknown>;
+  const candidato = valor["dados"] ?? valor["state"] ?? raw;
+  if (possuiCronograma(candidato)) return normalizar(candidato);
+
+  const cronograma = valor["cronograma"];
+  if (cronograma && typeof cronograma === "object") {
+    return normalizar({ cronograma });
+  }
+  return null;
+}
+
 type Ctx = {
   state: ForgeState;
   hidratado: boolean;
+  situacaoSalvamento: SituacaoSalvamento;
+  ultimoSalvamento: Date | null;
   setState: React.Dispatch<React.SetStateAction<ForgeState>>;
   toggleFavorito: (tipo: keyof ForgeState["favoritos"], id: string) => void;
   isFavorito: (tipo: keyof ForgeState["favoritos"], id: string) => boolean;
@@ -132,13 +172,27 @@ const ForgeContext = React.createContext<Ctx | null>(null);
 export function ForgeProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = React.useState<ForgeState>(estadoInicial);
   const [hidratado, setHidratado] = React.useState(false);
+  const [situacaoSalvamento, setSituacaoSalvamento] =
+    React.useState<SituacaoSalvamento>("carregando");
+  const [ultimoSalvamento, setUltimoSalvamento] = React.useState<Date | null>(null);
 
   React.useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setState(normalizar(JSON.parse(raw)));
+      if (raw) {
+        const restaurado = lerBackup(JSON.parse(raw));
+        if (restaurado) setState(restaurado);
+      }
     } catch {
-      /* ignora dados corrompidos */
+      try {
+        const reserva = localStorage.getItem(STORAGE_BACKUP_KEY);
+        if (reserva) {
+          const restaurado = lerBackup(JSON.parse(reserva));
+          if (restaurado) setState(restaurado);
+        }
+      } catch {
+        /* usa o estado inicial quando as duas cópias estão corrompidas */
+      }
     }
     setHidratado(true);
   }, []);
@@ -146,9 +200,13 @@ export function ForgeProvider({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     if (!hidratado) return;
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      const atual = JSON.stringify(state);
+      localStorage.setItem(STORAGE_BACKUP_KEY, atual);
+      localStorage.setItem(STORAGE_KEY, atual);
+      setSituacaoSalvamento("salvo");
+      setUltimoSalvamento(new Date());
     } catch {
-      /* armazenamento indisponível */
+      setSituacaoSalvamento("indisponivel");
     }
   }, [state, hidratado]);
 
@@ -167,6 +225,8 @@ export function ForgeProvider({ children }: { children: React.ReactNode }) {
     return {
       state,
       hidratado,
+      situacaoSalvamento,
+      ultimoSalvamento,
       setState,
       toggleFavorito: (tipo, id) =>
         setState((s) => {
@@ -199,7 +259,8 @@ export function ForgeProvider({ children }: { children: React.ReactNode }) {
           if (idx < 0 || alvo < 0 || alvo >= d.itens.length) return d;
           const itens = [...d.itens];
           const [m] = itens.splice(idx, 1);
-          itens.splice(alvo, 0, m!);
+          if (!m) return d;
+          itens.splice(alvo, 0, m);
           return { ...d, itens };
         }),
       reordenarItens: (dia, from, to) =>
@@ -207,7 +268,8 @@ export function ForgeProvider({ children }: { children: React.ReactNode }) {
           if (from === to || from < 0 || to < 0 || from >= d.itens.length) return d;
           const itens = [...d.itens];
           const [m] = itens.splice(from, 1);
-          itens.splice(Math.min(to, itens.length), 0, m!);
+          if (!m) return d;
+          itens.splice(Math.min(to, itens.length), 0, m);
           return { ...d, itens };
         }),
       limparDia: (dia) => mutarDia(dia, () => diaVazio()),
@@ -279,6 +341,7 @@ export function ForgeProvider({ children }: { children: React.ReactNode }) {
       resetar: () => {
         try {
           localStorage.removeItem(STORAGE_KEY);
+          localStorage.removeItem(STORAGE_BACKUP_KEY);
         } catch {
           /* ignora */
         }
@@ -286,7 +349,8 @@ export function ForgeProvider({ children }: { children: React.ReactNode }) {
       },
       importar: (data) => {
         try {
-          const parsed = normalizar(data);
+          const parsed = lerBackup(data);
+          if (!parsed) return false;
           setState(parsed);
           return true;
         } catch {
@@ -294,7 +358,7 @@ export function ForgeProvider({ children }: { children: React.ReactNode }) {
         }
       },
     };
-  }, [state, hidratado]);
+  }, [state, hidratado, situacaoSalvamento, ultimoSalvamento]);
 
   return <ForgeContext.Provider value={value}>{children}</ForgeContext.Provider>;
 }

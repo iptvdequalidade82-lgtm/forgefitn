@@ -26,3 +26,11 @@
 - [x] Adicionar combinações sugeridas pela FORGEFIT
 - [x] Manter modelos e alternativas separados por região
 - [x] Validar salvamento e visual em celular/computador
+
+## Proteção dos treinos sem banco de dados
+
+- [x] Mostrar o estado do salvamento automático no aparelho
+- [x] Manter uma cópia de segurança automática local
+- [x] Baixar uma cópia completa e compatível com versões anteriores
+- [x] Pedir confirmação antes de restaurar e substituir dados
+- [x] Validar recuperação, recarregamento e visual em celular/computador
