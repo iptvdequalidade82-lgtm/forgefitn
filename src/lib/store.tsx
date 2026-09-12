@@ -268,7 +268,8 @@ export function ForgeProvider({ children }: { children: React.ReactNode }) {
           if (from === to || from < 0 || to < 0 || from >= d.itens.length) return d;
           const itens = [...d.itens];
           const [m] = itens.splice(from, 1);
-          itens.splice(Math.min(to, itens.length), 0, m!);
+          if (!m) return d;
+          itens.splice(Math.min(to, itens.length), 0, m);
           return { ...d, itens };
         }),
       limparDia: (dia) => mutarDia(dia, () => diaVazio()),

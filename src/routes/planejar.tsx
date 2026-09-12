@@ -149,7 +149,7 @@ function Planejar() {
             <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
               {forge.situacaoSalvamento === "indisponivel"
                 ? "Baixe uma cópia para não perder suas alterações."
-                : "Cada pessoa tem seu próprio treino neste navegador. Para trocar de aparelho, baixe uma cópia."}
+                : "Cada navegador guarda um treino separado. Para trocar de aparelho, baixe uma cópia."}
             </p>
           </div>
         </div>

@@ -33,4 +33,4 @@
 - [x] Manter uma cópia de segurança automática local
 - [x] Baixar uma cópia completa e compatível com versões anteriores
 - [x] Pedir confirmação antes de restaurar e substituir dados
-- [ ] Validar recuperação, recarregamento e visual em celular/computador
+- [x] Validar recuperação, recarregamento e visual em celular/computador
