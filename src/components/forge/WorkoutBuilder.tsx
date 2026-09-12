@@ -42,7 +42,13 @@ const criarItens = (ids: string[]): ItemEditavel[] =>
     descanso: "1 min",
   }));
 
-export function WorkoutBuilder({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
+export function WorkoutBuilder({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+}) {
   const forge = useForge();
   const [focoId, setFocoId] = React.useState(focosTreino[0]?.id ?? "");
   const [variacao, setVariacao] = React.useState(0);
@@ -63,7 +69,9 @@ export function WorkoutBuilder({ open, onOpenChange }: { open: boolean; onOpenCh
   if (!foco || !modelo) return null;
 
   const alternativas = exercicios.filter(
-    (ex) => ex.publicado && (ex.categoria === foco.categoria || (foco.id === "gluteos" && ex.categoria === "pernas")),
+    (ex) =>
+      ex.publicado &&
+      (ex.categoria === foco.categoria || (foco.id === "gluteos" && ex.categoria === "pernas")),
   );
 
   const atualizar = (indice: number, patch: Partial<ItemEditavel>) =>
@@ -102,7 +110,9 @@ export function WorkoutBuilder({ open, onOpenChange }: { open: boolean; onOpenCh
           </DialogHeader>
 
           <section aria-labelledby="foco-titulo">
-            <h3 id="foco-titulo" className="mb-2 text-sm font-semibold">1. Qual treino você quer fazer?</h3>
+            <h3 id="foco-titulo" className="mb-2 text-sm font-semibold">
+              1. Qual treino você quer fazer?
+            </h3>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               {focosTreino.map((item) => (
                 <Button
@@ -124,10 +134,17 @@ export function WorkoutBuilder({ open, onOpenChange }: { open: boolean; onOpenCh
           <section aria-labelledby="modelo-titulo">
             <div className="mb-2 flex items-end justify-between gap-3">
               <div>
-                <h3 id="modelo-titulo" className="text-sm font-semibold">2. Escolha uma variação</h3>
+                <h3 id="modelo-titulo" className="text-sm font-semibold">
+                  2. Escolha uma variação
+                </h3>
                 <p className="text-xs text-muted-foreground">{foco.descricao}</p>
               </div>
-              <Button variant="ghost" size="sm" className="shrink-0 gap-1.5" onClick={carregarModelo}>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="shrink-0 gap-1.5"
+                onClick={carregarModelo}
+              >
                 <RotateCcw className="h-4 w-4" /> Restaurar
               </Button>
             </div>
@@ -148,33 +165,66 @@ export function WorkoutBuilder({ open, onOpenChange }: { open: boolean; onOpenCh
           <div className="rounded-lg border border-primary/25 bg-primary/10 px-3 py-3 text-sm">
             <div className="flex gap-2">
               <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-              <p><strong>Antes do treino:</strong> faça 2–3 séries de alongamento do grupo, segurando por 30 segundos e descansando 30 segundos.</p>
+              <p>
+                <strong>Antes do treino:</strong> faça 2–3 séries de alongamento do grupo, segurando
+                por 30 segundos e descansando 30 segundos.
+              </p>
             </div>
           </div>
 
           <section aria-labelledby="ajuste-titulo">
-            <h3 id="ajuste-titulo" className="mb-2 text-sm font-semibold">3. Confira e ajuste os exercícios</h3>
+            <h3 id="ajuste-titulo" className="mb-2 text-sm font-semibold">
+              3. Confira e ajuste os exercícios
+            </h3>
             <div className="space-y-2">
               {itens.map((item, indice) => {
                 const ex = exercicios.find((e) => e.id === item.exercicioId);
                 return (
-                  <article key={`${indice}-${item.exercicioId}`} className="grid gap-3 rounded-lg border border-border bg-elevated p-3 sm:grid-cols-[72px_1fr]">
-                    <Thumbnail src={ex?.thumbnailUrl} alt={ex?.nome ?? "Exercício"} className="aspect-square w-[72px] rounded-md" fallbackIcone={<Dumbbell className="h-6 w-6" />} />
+                  <article
+                    key={`${indice}-${item.exercicioId}`}
+                    className="grid gap-3 rounded-lg border border-border bg-elevated p-3 sm:grid-cols-[72px_1fr]"
+                  >
+                    <Thumbnail
+                      src={ex?.thumbnailUrl}
+                      alt={ex?.nome ?? "Exercício"}
+                      className="aspect-square w-[72px] rounded-md"
+                      fallbackIcone={<Dumbbell className="h-6 w-6" />}
+                    />
                     <div className="min-w-0 space-y-3">
-                      <Select value={item.exercicioId} onValueChange={(value) => atualizar(indice, { exercicioId: value })}>
-                        <SelectTrigger aria-label={`Exercício ${indice + 1}`} className="h-10 bg-background font-medium">
+                      <Select
+                        value={item.exercicioId}
+                        onValueChange={(value) => atualizar(indice, { exercicioId: value })}
+                      >
+                        <SelectTrigger
+                          aria-label={`Exercício ${indice + 1}`}
+                          className="h-10 bg-background font-medium"
+                        >
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
                           {alternativas.map((alternativa) => (
-                            <SelectItem key={alternativa.id} value={alternativa.id}>{alternativa.nome}</SelectItem>
+                            <SelectItem key={alternativa.id} value={alternativa.id}>
+                              {alternativa.nome}
+                            </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
                       <div className="grid grid-cols-3 gap-2">
-                        <Campo label="Séries" value={item.series} onChange={(value) => atualizar(indice, { series: value })} />
-                        <Campo label="Repetições" value={item.repeticoes} onChange={(value) => atualizar(indice, { repeticoes: value })} />
-                        <Campo label="Descanso" value={item.descanso} onChange={(value) => atualizar(indice, { descanso: value })} />
+                        <Campo
+                          label="Séries"
+                          value={item.series}
+                          onChange={(value) => atualizar(indice, { series: value })}
+                        />
+                        <Campo
+                          label="Repetições"
+                          value={item.repeticoes}
+                          onChange={(value) => atualizar(indice, { repeticoes: value })}
+                        />
+                        <Campo
+                          label="Descanso"
+                          value={item.descanso}
+                          onChange={(value) => atualizar(indice, { descanso: value })}
+                        />
                       </div>
                     </div>
                   </article>
@@ -183,13 +233,24 @@ export function WorkoutBuilder({ open, onOpenChange }: { open: boolean; onOpenCh
             </div>
           </section>
 
-          <section className="grid gap-3 border-t border-border pt-4 sm:grid-cols-[1fr_auto] sm:items-end" aria-labelledby="dia-titulo">
+          <section
+            className="grid gap-3 border-t border-border pt-4 sm:grid-cols-[1fr_auto] sm:items-end"
+            aria-labelledby="dia-titulo"
+          >
             <div>
-              <h3 id="dia-titulo" className="mb-2 text-sm font-semibold">4. Em qual dia?</h3>
+              <h3 id="dia-titulo" className="mb-2 text-sm font-semibold">
+                4. Em qual dia?
+              </h3>
               <Select value={String(dia)} onValueChange={(value) => setDia(Number(value))}>
-                <SelectTrigger className="h-11 bg-elevated"><SelectValue /></SelectTrigger>
+                <SelectTrigger className="h-11 bg-elevated">
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
-                  {DIAS.map((nome, indice) => <SelectItem key={nome} value={String(indice + 1)}>{nome}</SelectItem>)}
+                  {DIAS.map((nome, indice) => (
+                    <SelectItem key={nome} value={String(indice + 1)}>
+                      {nome}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -204,7 +265,10 @@ export function WorkoutBuilder({ open, onOpenChange }: { open: boolean; onOpenCh
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Substituir o treino de {DIAS[dia - 1]}?</AlertDialogTitle>
-            <AlertDialogDescription>Esse dia já tem exercícios. O treino atual será trocado pela nova ficha de {foco.nome}.</AlertDialogDescription>
+            <AlertDialogDescription>
+              Esse dia já tem exercícios. O treino atual será trocado pela nova ficha de {foco.nome}
+              .
+            </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
@@ -216,12 +280,28 @@ export function WorkoutBuilder({ open, onOpenChange }: { open: boolean; onOpenCh
   );
 }
 
-function Campo({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
+function Campo({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+}) {
   const id = React.useId();
   return (
     <label htmlFor={id} className="min-w-0 text-xs text-muted-foreground">
       {label}
-      <Input id={id} value={value} onChange={(event) => onChange(event.target.value)} className={cn("mt-1 h-9 bg-background px-2 text-foreground", label === "Repetições" && "text-xs sm:text-sm")} />
+      <Input
+        id={id}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className={cn(
+          "mt-1 h-9 bg-background px-2 text-foreground",
+          label === "Repetições" && "text-xs sm:text-sm",
+        )}
+      />
     </label>
   );
 }

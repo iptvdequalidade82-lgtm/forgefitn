@@ -3,12 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Download, FileSpreadsheet, Heart, Eye, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -138,7 +133,11 @@ function Planilhas() {
                     ) : null}
                     <div className="mt-auto grid gap-2 pt-2">
                       {p.id === "pl-fichas-personalizadas" ? (
-                        <Button size="sm" className="gap-1.5" onClick={() => setMontadorAberto(true)}>
+                        <Button
+                          size="sm"
+                          className="gap-1.5"
+                          onClick={() => setMontadorAberto(true)}
+                        >
                           <Sparkles className="h-4 w-4" /> Montar meu treino
                         </Button>
                       ) : (
@@ -146,11 +145,7 @@ function Planilhas() {
                           <Button size="sm" className="gap-1.5" onClick={() => setDetalhe(p)}>
                             <Eye className="h-4 w-4" /> Visualizar
                           </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => setAplicar(p)}
-                          >
+                          <Button size="sm" variant="outline" onClick={() => setAplicar(p)}>
                             Adicionar ao meu cronograma
                           </Button>
                         </>
@@ -201,9 +196,7 @@ function Planilhas() {
               )}
               {detalhe.estrutura?.length ? (
                 <div>
-                  <h3 className="mb-2 font-display text-lg font-semibold uppercase">
-                    Estrutura
-                  </h3>
+                  <h3 className="mb-2 font-display text-lg font-semibold uppercase">Estrutura</h3>
                   <ul className="space-y-1 text-sm">
                     {detalhe.estrutura.map((d) => (
                       <li key={d.dia} className="rounded-xl bg-elevated px-3 py-2">
