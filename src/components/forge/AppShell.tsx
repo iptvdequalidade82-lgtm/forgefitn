@@ -21,13 +21,13 @@ type NavItem = { to: string; label: string; icon: LucideIcon };
 
 export const navPrincipal: NavItem[] = [
   { to: "/", label: "Início", icon: Home },
-  { to: "/exercicios", label: "Exercícios", icon: Dumbbell },
-  { to: "/planejar", label: "Planejar", icon: CalendarDays },
-  { to: "/receitas", label: "Receitas", icon: UtensilsCrossed },
+  { to: "/planilhas", label: "Treinos", icon: FileSpreadsheet },
+  { to: "/planejar", label: "Meu treino", icon: CalendarDays },
+  { to: "/exercicios", label: "Execuções", icon: Dumbbell },
 ];
 
 export const navSecundaria: NavItem[] = [
-  { to: "/planilhas", label: "Planilhas", icon: FileSpreadsheet },
+  { to: "/receitas", label: "Receitas", icon: UtensilsCrossed },
   { to: "/desafio", label: "Desafio 24 dias", icon: Flame },
   { to: "/downloads", label: "Downloads", icon: Download },
   { to: "/favoritos", label: "Favoritos", icon: Heart },

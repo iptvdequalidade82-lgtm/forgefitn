@@ -9,13 +9,12 @@ export const Route = createFileRoute("/mais")({
       { title: "Mais — FORGEFIT" },
       {
         name: "description",
-        content:
-          "Acesse planilhas, desafio de 24 dias, downloads, favoritos e configurações do ForgeFit.",
+        content: "Acesse o desafio de 24 dias, downloads, favoritos e configurações do ForgeFit.",
       },
       { property: "og:title", content: "Mais — FORGEFIT" },
       {
         property: "og:description",
-        content: "Planilhas, desafio, downloads, favoritos e configurações.",
+        content: "Desafio, downloads, favoritos e configurações.",
       },
     ],
   }),

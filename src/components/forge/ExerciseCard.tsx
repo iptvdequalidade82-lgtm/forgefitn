@@ -48,9 +48,7 @@ export function ExerciseCard({
             )}
           />
         </button>
-        {exercicio.exemplo ? (
-          <EtiquetaExemplo className="absolute left-2 top-2" />
-        ) : null}
+        {exercicio.exemplo ? <EtiquetaExemplo className="absolute left-2 top-2" /> : null}
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-3">
@@ -58,18 +56,16 @@ export function ExerciseCard({
           {exercicio.nome}
         </h3>
         <div className="flex flex-wrap gap-1.5">
-          <Chip className="bg-primary/15 text-primary">
-            {exercicio.grupoMuscularPrincipal}
-          </Chip>
+          <Chip className="bg-primary/15 text-primary">{exercicio.grupoMuscularPrincipal}</Chip>
           {exercicio.equipamento ? <Chip>{exercicio.equipamento}</Chip> : null}
           {exercicio.nivel ? <Chip>{exercicio.nivel}</Chip> : null}
         </div>
         <div className="mt-auto grid grid-cols-2 gap-2 pt-2">
           <Button size="sm" onClick={onVer} className="gap-1.5">
-            <Eye className="h-4 w-4" /> Ver execução
+            <Eye className="h-4 w-4" /> Ver movimento
           </Button>
           <Button size="sm" variant="outline" onClick={onAdicionar} className="gap-1.5">
-            <Plus className="h-4 w-4" /> Cronograma
+            <Plus className="h-4 w-4" /> Meu treino
           </Button>
         </div>
       </div>

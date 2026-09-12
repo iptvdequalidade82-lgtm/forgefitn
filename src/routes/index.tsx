@@ -24,7 +24,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Seu painel ForgeFit: treino de hoje, resumo da semana, categorias de exercícios, planilhas e receitas.",
+          "Seu painel ForgeFit: treino de hoje, resumo da semana, treinos recomendados, execuções e receitas.",
       },
       { property: "og:title", content: "Início — FORGEFIT" },
       {
@@ -70,9 +70,7 @@ function Inicio() {
       {/* Treino de hoje */}
       <section className="card-surface p-5">
         <div className="mb-3 flex items-center justify-between gap-3">
-          <h2 className="font-display text-xl font-semibold uppercase">
-            Seu treino de hoje
-          </h2>
+          <h2 className="font-display text-xl font-semibold uppercase">Seu treino de hoje</h2>
           <Chip className="bg-primary/15 text-primary">{DIAS[hoje - 1]}</Chip>
         </div>
 
@@ -94,9 +92,7 @@ function Inicio() {
                         item.concluido ? "text-primary" : "text-muted-foreground/40",
                       )}
                     />
-                    <span className="truncate text-foreground">
-                      {ex?.nome ?? "Exercício"}
-                    </span>
+                    <span className="truncate text-foreground">{ex?.nome ?? "Exercício"}</span>
                     {item.series || item.repeticoes ? (
                       <span className="shrink-0">
                         {item.series && `${item.series}x`}
@@ -120,18 +116,14 @@ function Inicio() {
           </>
         ) : semanaVazia ? (
           <div className="space-y-3">
-            <p className="text-sm text-muted-foreground">
-              Seu cronograma ainda está vazio.
-            </p>
+            <p className="text-sm text-muted-foreground">Seu cronograma ainda está vazio.</p>
             <Button asChild>
-              <Link to="/planejar">Montar minha semana</Link>
+              <Link to="/planilhas">Escolher um treino</Link>
             </Button>
           </div>
         ) : (
           <div className="space-y-3">
-            <p className="text-sm text-muted-foreground">
-              Nenhum exercício planejado para hoje.
-            </p>
+            <p className="text-sm text-muted-foreground">Nenhum exercício planejado para hoje.</p>
             <Button asChild variant="outline">
               <Link to="/planejar">Abrir meu cronograma</Link>
             </Button>
@@ -143,9 +135,7 @@ function Inicio() {
       <section className="card-surface p-5">
         <div className="mb-3 flex items-center justify-between gap-3">
           <h2 className="font-display text-xl font-semibold uppercase">Sua semana</h2>
-          <span className="text-xs text-muted-foreground">
-            {diasMarcados} de 7 dias marcados
-          </span>
+          <span className="text-xs text-muted-foreground">{diasMarcados} de 7 dias marcados</span>
         </div>
         <ul className="grid grid-cols-7 gap-1.5">
           {DIAS_CURTOS.map((label, i) => {
@@ -187,8 +177,8 @@ function Inicio() {
         <AtalhoCard
           to="/planilhas"
           icone={<FileSpreadsheet className="h-5 w-5" />}
-          titulo="Planilhas"
-          descricao="Cronogramas prontos"
+          titulo="Treinos"
+          descricao="Recomendações personalizáveis"
         />
         <AtalhoCard
           to="/receitas"
@@ -201,9 +191,7 @@ function Inicio() {
       {/* Categorias */}
       <section>
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="font-display text-xl font-semibold uppercase">
-            Categorias populares
-          </h2>
+          <h2 className="font-display text-xl font-semibold uppercase">Execuções por região</h2>
           <Link to="/exercicios" className="text-sm text-primary hover:underline">
             Ver todas
           </Link>
@@ -234,10 +222,7 @@ function Inicio() {
         {recentes.length ? (
           <ul className="space-y-2">
             {recentes.map((ex, i) => (
-              <li
-                key={`${ex!.id}-${i}`}
-                className="card-surface flex items-center gap-3 p-3"
-              >
+              <li key={`${ex!.id}-${i}`} className="card-surface flex items-center gap-3 p-3">
                 <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-elevated">
                   <Dumbbell className="h-4 w-4 text-primary" />
                 </span>
@@ -257,7 +242,7 @@ function Inicio() {
             icone={<Dumbbell className="h-7 w-7" />}
             acao={
               <Button asChild>
-                <Link to="/exercicios">Explorar exercícios</Link>
+                <Link to="/exercicios">Ver execuções</Link>
               </Button>
             }
           />
@@ -267,7 +252,7 @@ function Inicio() {
       <div className="pb-2">
         <Button asChild variant="outline" className="w-full gap-2 sm:w-auto">
           <Link to="/exercicios">
-            <CalendarDays className="h-4 w-4" /> Explorar exercícios
+            <CalendarDays className="h-4 w-4" /> Consultar execuções
           </Link>
         </Button>
       </div>

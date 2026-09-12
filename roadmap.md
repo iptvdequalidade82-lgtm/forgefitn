@@ -12,3 +12,11 @@
 - [x] Exibir o GIF do exercício escolhido
 - [x] Validar o fluxo atualizado
 
+
+## Jornada de treinos mais clara
+
+- [x] Renomear e reorganizar a navegação entre Execuções, Treinos e Meu treino
+- [x] Simplificar a tela de Treinos e separar materiais de apoio
+- [x] Melhorar instruções, campos e acesso aos GIFs no montador
+- [x] Melhorar o cronograma para iniciantes e permitir ver execuções
+- [x] Corrigir categorias repetidas e validar celular/computador
