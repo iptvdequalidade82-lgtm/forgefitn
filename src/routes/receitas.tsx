@@ -359,6 +359,14 @@ function ReceitaCard({
 }) {
   return (
     <article className="card-surface flex h-full min-h-52 flex-col p-4">
+      {receita.imagemUrl ? (
+        <Thumbnail
+          src={receita.imagemUrl}
+          alt={`Foto de ${receita.nome}`}
+          className="mb-4 aspect-[16/9] w-full rounded-lg object-cover"
+          fallbackIcone={<UtensilsCrossed className="h-7 w-7" />}
+        />
+      ) : null}
       <div className="flex items-start justify-between gap-3">
         <Chip className="bg-primary/15 text-primary">{receita.colecao}</Chip>
         <Button
@@ -407,6 +415,14 @@ function DetalheReceita({
           {receita.nome}
         </DialogTitle>
       </DialogHeader>
+      {receita.imagemUrl ? (
+        <Thumbnail
+          src={receita.imagemUrl}
+          alt={`Foto de ${receita.nome}`}
+          className="aspect-[16/9] w-full rounded-xl object-cover"
+          fallbackIcone={<UtensilsCrossed className="h-8 w-8" />}
+        />
+      ) : null}
       <div className="flex flex-wrap gap-1.5">
         <Chip className="bg-primary/15 text-primary">{receita.colecao}</Chip>
         <Chip>{receita.refeicao}</Chip>

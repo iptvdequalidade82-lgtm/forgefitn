@@ -31,8 +31,13 @@ const arquivosPorColecao: Record<string, string> = {
   "Emagrecimento sem dietas": emagrecimentoPdf.url,
 };
 
+const imagensPorSlug: Record<string, string> = {
+  "salpicao-de-frango": "/images/receitas/salpicao-de-frango.webp",
+};
+
 export const receitas: Receita[] = receitasGeradas.map((receita) => ({
   ...receita,
+  imagemUrl: imagensPorSlug[receita.slug] ?? receita.imagemUrl,
   arquivoDownloadUrl: arquivosPorColecao[receita.colecao] ?? "",
 }));
 
