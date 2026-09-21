@@ -282,7 +282,7 @@ function Receitas() {
             </DialogTitle>
           </DialogHeader>
           <EscolherDiaRefeicao
-            refeicaoInicial={paraSemana?.refeicao}
+            {...(paraSemana?.refeicao ? { refeicaoInicial: paraSemana.refeicao } : {})}
             onConfirmar={(dia, ref) => {
               if (!paraSemana) return;
               adicionarRefeicao(dia, paraSemana.id, ref);
