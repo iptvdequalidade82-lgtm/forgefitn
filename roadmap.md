@@ -34,3 +34,11 @@
 - [x] Baixar uma cópia completa e compatível com versões anteriores
 - [x] Pedir confirmação antes de restaurar e substituir dados
 - [x] Validar recuperação, recarregamento e visual em celular/computador
+
+## Biblioteca de receitas e alimentação
+
+- [ ] Extrair e revisar as receitas reais dos PDFs enviados
+- [ ] Substituir exemplos e organizar receitas por tipo de refeição e coleção
+- [ ] Reunir cardápios e guias de emagrecimento na aba Receitas
+- [ ] Melhorar busca, filtros, leitura e acesso aos materiais completos
+- [ ] Validar conteúdo e navegação no celular e computador
