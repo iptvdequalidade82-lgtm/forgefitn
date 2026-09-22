@@ -16,6 +16,7 @@ import { Route as DownloadsRouteImport } from './routes/downloads'
 import { Route as ExerciciosRouteImport } from './routes/exercicios'
 import { Route as FavoritosRouteImport } from './routes/favoritos'
 import { Route as MaisRouteImport } from './routes/mais'
+import { Route as ObrigadoOfertaRouteImport } from './routes/obrigado-oferta'
 import { Route as PlanejarRouteImport } from './routes/planejar'
 import { Route as PlanilhasRouteImport } from './routes/planilhas'
 import { Route as ReceitasRouteImport } from './routes/receitas'
@@ -55,6 +56,11 @@ const MaisRoute = MaisRouteImport.update({
   path: '/mais',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ObrigadoOfertaRoute = ObrigadoOfertaRouteImport.update({
+  id: '/obrigado-oferta',
+  path: '/obrigado-oferta',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlanejarRoute = PlanejarRouteImport.update({
   id: '/planejar',
   path: '/planejar',
@@ -79,6 +85,7 @@ export interface FileRoutesByFullPath {
   '/exercicios': typeof ExerciciosRoute
   '/favoritos': typeof FavoritosRoute
   '/mais': typeof MaisRoute
+  '/obrigado-oferta': typeof ObrigadoOfertaRoute
   '/planejar': typeof PlanejarRoute
   '/planilhas': typeof PlanilhasRoute
   '/receitas': typeof ReceitasRoute
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/exercicios': typeof ExerciciosRoute
   '/favoritos': typeof FavoritosRoute
   '/mais': typeof MaisRoute
+  '/obrigado-oferta': typeof ObrigadoOfertaRoute
   '/planejar': typeof PlanejarRoute
   '/planilhas': typeof PlanilhasRoute
   '/receitas': typeof ReceitasRoute
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/exercicios': typeof ExerciciosRoute
   '/favoritos': typeof FavoritosRoute
   '/mais': typeof MaisRoute
+  '/obrigado-oferta': typeof ObrigadoOfertaRoute
   '/planejar': typeof PlanejarRoute
   '/planilhas': typeof PlanilhasRoute
   '/receitas': typeof ReceitasRoute
@@ -118,6 +127,7 @@ export interface FileRouteTypes {
     | '/exercicios'
     | '/favoritos'
     | '/mais'
+    | '/obrigado-oferta'
     | '/planejar'
     | '/planilhas'
     | '/receitas'
@@ -130,6 +140,7 @@ export interface FileRouteTypes {
     | '/exercicios'
     | '/favoritos'
     | '/mais'
+    | '/obrigado-oferta'
     | '/planejar'
     | '/planilhas'
     | '/receitas'
@@ -142,6 +153,7 @@ export interface FileRouteTypes {
     | '/exercicios'
     | '/favoritos'
     | '/mais'
+    | '/obrigado-oferta'
     | '/planejar'
     | '/planilhas'
     | '/receitas'
@@ -155,6 +167,7 @@ export interface RootRouteChildren {
   ExerciciosRoute: typeof ExerciciosRoute
   FavoritosRoute: typeof FavoritosRoute
   MaisRoute: typeof MaisRoute
+  ObrigadoOfertaRoute: typeof ObrigadoOfertaRoute
   PlanejarRoute: typeof PlanejarRoute
   PlanilhasRoute: typeof PlanilhasRoute
   ReceitasRoute: typeof ReceitasRoute
@@ -211,6 +224,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MaisRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/obrigado-oferta': {
+      id: '/obrigado-oferta'
+      path: '/obrigado-oferta'
+      fullPath: '/obrigado-oferta'
+      preLoaderRoute: typeof ObrigadoOfertaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/planejar': {
       id: '/planejar'
       path: '/planejar'
@@ -243,6 +263,7 @@ const rootRouteChildren: RootRouteChildren = {
   ExerciciosRoute: ExerciciosRoute,
   FavoritosRoute: FavoritosRoute,
   MaisRoute: MaisRoute,
+  ObrigadoOfertaRoute: ObrigadoOfertaRoute,
   PlanejarRoute: PlanejarRoute,
   PlanilhasRoute: PlanilhasRoute,
   ReceitasRoute: ReceitasRoute,
