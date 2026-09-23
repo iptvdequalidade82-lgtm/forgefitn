@@ -16,6 +16,30 @@ import { Button } from "@/components/ui/button";
 
 const LINK_UPSELL = "https://pay.sunize.com.br/BtLpmTRc";
 const LINK_DOWNSELL = "https://pay.sunize.com.br/ApQSQkKr";
+const LINK_DOWNSELL_FINAL = "https://pay.sunize.com.br/VIQVExXSPode";
+
+const ofertas = [
+  {
+    checkout: LINK_UPSELL,
+    preco: "29,90",
+    reais: "29",
+    precoAnterior: null,
+  },
+  {
+    checkout: LINK_DOWNSELL,
+    preco: "15,90",
+    reais: "15",
+    precoAnterior: "29,90",
+  },
+  {
+    checkout: LINK_DOWNSELL_FINAL,
+    preco: "9,90",
+    reais: "9",
+    precoAnterior: "15,90",
+  },
+] as const;
+
+type EtapaOferta = 0 | 1 | 2;
 
 export const Route = createFileRoute("/obrigado-oferta")({
   head: () => ({
@@ -96,10 +120,14 @@ function LogoGelatinaMounjaro() {
 }
 
 function ObrigadoOferta() {
-  const [mostrarDownsell, setMostrarDownsell] = useState(false);
+  const [etapaOferta, setEtapaOferta] = useState<EtapaOferta>(0);
+  const ofertaAtual = ofertas[etapaOferta];
+  const ofertaFinal = etapaOferta === 2;
 
-  function abrirDownsell() {
-    setMostrarDownsell(true);
+  function mostrarProximaOferta() {
+    if (ofertaFinal) return;
+
+    setEtapaOferta((etapaOferta + 1) as EtapaOferta);
     window.requestAnimationFrame(() => {
       document.getElementById("oferta-atual")?.focus({ preventScroll: true });
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -165,18 +193,22 @@ function ObrigadoOferta() {
               <div className="relative">
                 <span
                   className={`inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-bold uppercase tracking-wider ${
-                    mostrarDownsell
+                    etapaOferta > 0
                       ? "bg-accent text-accent-foreground"
                       : "bg-primary/15 text-primary"
                   }`}
                 >
-                  {mostrarDownsell ? (
+                  {etapaOferta === 0 ? (
                     <>
-                      <Sparkles className="h-4 w-4" /> Última oportunidade
+                      <BadgeCheck className="h-4 w-4" /> Oferta exclusiva pós-compra
+                    </>
+                  ) : etapaOferta === 1 ? (
+                    <>
+                      <Sparkles className="h-4 w-4" /> Desconto especial liberado
                     </>
                   ) : (
                     <>
-                      <BadgeCheck className="h-4 w-4" /> Oferta exclusiva pós-compra
+                      <Sparkles className="h-4 w-4" /> Última oportunidade
                     </>
                   )}
                 </span>
@@ -186,22 +218,29 @@ function ObrigadoOferta() {
                   tabIndex={-1}
                   className="mt-5 font-display text-4xl font-bold uppercase leading-[0.95] sm:text-5xl"
                 >
-                  {mostrarDownsell ? (
-                    <>
-                      Leve o mesmo guia por uma <span className="text-primary">condição final</span>
-                    </>
-                  ) : (
+                  {etapaOferta === 0 ? (
                     <>
                       Complete sua jornada com a{" "}
                       <span className="text-primary">Gelatina Mounjaro</span>
+                    </>
+                  ) : etapaOferta === 1 ? (
+                    <>
+                      Leve o mesmo guia por uma{" "}
+                      <span className="text-primary">condição especial</span>
+                    </>
+                  ) : (
+                    <>
+                      Sua última chance por apenas <span className="text-primary">R$ 9,90</span>
                     </>
                   )}
                 </h2>
 
                 <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-                  {mostrarDownsell
-                    ? "Esta é sua última oportunidade de adquirir o mesmo Guia Gelatina Mounjaro com uma condição reduzida exclusiva desta etapa."
-                    : "Adicione agora o Guia Gelatina Mounjaro ao seu pedido e receba um material digital organizado para acompanhar de forma simples no dia a dia."}
+                  {etapaOferta === 0
+                    ? "Adicione agora o Guia Gelatina Mounjaro ao seu pedido e receba um material digital organizado para acompanhar de forma simples no dia a dia."
+                    : etapaOferta === 1
+                      ? "Uma condição reduzida foi liberada para você adquirir o mesmo Guia Gelatina Mounjaro com pagamento único."
+                      : "Esta é a condição final para adquirir o mesmo Guia Gelatina Mounjaro antes de acessar seu conteúdo principal."}
                 </p>
 
                 <ul className="mt-6 grid gap-3 sm:grid-cols-3">
@@ -224,9 +263,10 @@ function ObrigadoOferta() {
                 </ul>
 
                 <div className="mt-7 rounded-2xl border border-primary/20 bg-primary/10 p-5">
-                  {mostrarDownsell ? (
+                  {ofertaAtual.precoAnterior ? (
                     <p className="text-sm text-muted-foreground">
-                      De <span className="line-through">R$ 29,90</span> por apenas:
+                      De <span className="line-through">R$ {ofertaAtual.precoAnterior}</span> por
+                      apenas:
                     </p>
                   ) : (
                     <p className="text-sm font-medium text-muted-foreground">Condição exclusiva:</p>
@@ -234,7 +274,7 @@ function ObrigadoOferta() {
                   <p className="mt-1 flex items-start text-primary">
                     <span className="mt-2 text-lg font-bold">R$</span>
                     <span className="font-display text-7xl font-bold leading-none">
-                      {mostrarDownsell ? "15" : "29"}
+                      {ofertaAtual.reais}
                     </span>
                     <span className="mt-2 text-2xl font-bold">,90</span>
                   </p>
@@ -248,15 +288,13 @@ function ObrigadoOferta() {
                 </p>
                 <div className="mt-2 grid gap-3 sm:grid-cols-2">
                   <Button asChild size="lg" className="h-14 w-full px-4 text-sm sm:text-base">
-                    <a href={mostrarDownsell ? LINK_DOWNSELL : LINK_UPSELL}>
-                      {mostrarDownsell
-                        ? "SIM, EU QUERO POR R$ 15,90"
-                        : "SIM, EU QUERO POR R$ 29,90"}
+                    <a href={ofertaAtual.checkout}>
+                      SIM, EU QUERO POR R$ {ofertaAtual.preco}
                       <ArrowRight className="h-5 w-5" />
                     </a>
                   </Button>
 
-                  {mostrarDownsell ? (
+                  {ofertaFinal ? (
                     <Button
                       asChild
                       size="lg"
@@ -272,7 +310,7 @@ function ObrigadoOferta() {
                       type="button"
                       size="lg"
                       variant="outline"
-                      onClick={abrirDownsell}
+                      onClick={mostrarProximaOferta}
                       className="h-14 w-full border-2 px-4 text-sm sm:text-base"
                     >
                       <X className="h-5 w-5" /> NÃO, EU NÃO QUERO
