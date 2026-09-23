@@ -8,6 +8,7 @@ import {
   LockKeyhole,
   ShieldCheck,
   Sparkles,
+  X,
 } from "lucide-react";
 import { useState } from "react";
 import { Logo } from "@/components/forge/Logo";
@@ -45,6 +46,54 @@ const beneficios = [
     descricao: "Sem mensalidade ou cobrança recorrente para acessar o conteúdo.",
   },
 ] as const;
+
+function LogoGelatinaMounjaro() {
+  return (
+    <div className="relative z-10 flex w-full max-w-[420px] items-center justify-center">
+      <div className="flex items-center gap-3 rounded-2xl border border-white/20 bg-black/15 px-4 py-3 shadow-xl shadow-black/20 backdrop-blur-sm sm:gap-4 sm:px-5">
+        <span
+          aria-hidden
+          className="relative grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-2xl bg-gradient-to-br from-[#ff5caf] via-[#d52e99] to-[#7020a2] shadow-lg shadow-fuchsia-950/40 sm:h-16 sm:w-16"
+        >
+          <span className="absolute -right-3 -top-4 h-10 w-10 rounded-full bg-orange-300/80 blur-sm" />
+          <svg
+            viewBox="0 0 48 48"
+            className="relative h-10 w-10 text-white drop-shadow-md sm:h-11 sm:w-11"
+          >
+            <ellipse cx="24" cy="14" rx="12" ry="4" fill="currentColor" fillOpacity="0.96" />
+            <path
+              d="M12 14h24l5 21c.6 2.4-1.2 4.7-3.7 4.7H10.7C8.2 39.7 6.4 37.4 7 35l5-21Z"
+              fill="currentColor"
+              fillOpacity="0.9"
+            />
+            <path
+              d="m17 17-2.2 17M24 17v17M31 17l2.2 17"
+              fill="none"
+              stroke="#d52e99"
+              strokeLinecap="round"
+              strokeWidth="2.5"
+              opacity="0.7"
+            />
+            <ellipse cx="24" cy="36" rx="15.5" ry="4" fill="white" fillOpacity="0.98" />
+          </svg>
+          <Sparkles className="absolute right-1.5 top-1.5 h-3.5 w-3.5 text-yellow-200" />
+        </span>
+
+        <span className="min-w-0 text-left">
+          <span className="block text-[9px] font-bold uppercase tracking-[0.26em] text-pink-200 sm:text-[10px]">
+            Guia definitivo
+          </span>
+          <span className="mt-0.5 block font-display text-2xl font-bold uppercase leading-[0.9] tracking-wide text-white sm:text-[28px]">
+            Gelatina
+          </span>
+          <span className="block bg-gradient-to-r from-pink-300 via-orange-200 to-yellow-100 bg-clip-text font-display text-2xl font-bold uppercase leading-none tracking-wide text-transparent sm:text-[28px]">
+            Mounjaro
+          </span>
+        </span>
+      </div>
+    </div>
+  );
+}
 
 function ObrigadoOferta() {
   const [mostrarDownsell, setMostrarDownsell] = useState(false);
@@ -92,11 +141,12 @@ function ObrigadoOferta() {
 
         <section aria-live="polite">
           <article className="card-surface grid overflow-hidden border-primary/25 lg:grid-cols-[minmax(320px,0.78fr)_minmax(0,1.22fr)]">
-            <div className="relative flex items-center justify-center bg-[#3f006d] p-4 sm:p-7 lg:p-8">
+            <div className="relative flex flex-col items-center justify-center gap-5 bg-[#3f006d] p-4 sm:gap-6 sm:p-7 lg:p-8">
               <div
                 aria-hidden
                 className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,color-mix(in_oklab,white_14%,transparent),transparent_55%)]"
               />
+              <LogoGelatinaMounjaro />
               <img
                 src="/images/gelatina-mounjaro.webp"
                 alt="Capa do Guia Definitivo Gelatina Mounjaro"
@@ -193,34 +243,47 @@ function ObrigadoOferta() {
                   </p>
                 </div>
 
-                <Button asChild size="lg" className="mt-5 h-14 w-full text-base sm:text-lg">
-                  <a href={mostrarDownsell ? LINK_DOWNSELL : LINK_UPSELL}>
-                    {mostrarDownsell ? "SIM, QUERO POR R$ 15,90" : "SIM, QUERO POR R$ 29,90"}
-                    <ArrowRight className="h-5 w-5" />
-                  </a>
-                </Button>
+                <p className="mt-5 text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Escolha como deseja continuar
+                </p>
+                <div className="mt-2 grid gap-3 sm:grid-cols-2">
+                  <Button asChild size="lg" className="h-14 w-full px-4 text-sm sm:text-base">
+                    <a href={mostrarDownsell ? LINK_DOWNSELL : LINK_UPSELL}>
+                      {mostrarDownsell
+                        ? "SIM, EU QUERO POR R$ 15,90"
+                        : "SIM, EU QUERO POR R$ 29,90"}
+                      <ArrowRight className="h-5 w-5" />
+                    </a>
+                  </Button>
+
+                  {mostrarDownsell ? (
+                    <Button
+                      asChild
+                      size="lg"
+                      variant="outline"
+                      className="h-14 w-full border-2 px-4 text-sm sm:text-base"
+                    >
+                      <Link to="/">
+                        <X className="h-5 w-5" /> NÃO, EU NÃO QUERO
+                      </Link>
+                    </Button>
+                  ) : (
+                    <Button
+                      type="button"
+                      size="lg"
+                      variant="outline"
+                      onClick={abrirDownsell}
+                      className="h-14 w-full border-2 px-4 text-sm sm:text-base"
+                    >
+                      <X className="h-5 w-5" /> NÃO, EU NÃO QUERO
+                    </Button>
+                  )}
+                </div>
 
                 <div className="mt-3 flex items-center justify-center gap-2 text-xs text-muted-foreground">
                   <LockKeyhole className="h-3.5 w-3.5 text-primary" />
                   Compra processada em ambiente seguro
                 </div>
-
-                {mostrarDownsell ? (
-                  <Link
-                    to="/"
-                    className="mx-auto mt-5 block w-fit text-center text-xs text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-foreground"
-                  >
-                    Não quero aproveitar e desejo acessar meu conteúdo
-                  </Link>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={abrirDownsell}
-                    className="mx-auto mt-5 block text-xs text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-foreground"
-                  >
-                    Não, obrigado. Quero continuar sem esta oferta
-                  </button>
-                )}
               </div>
             </div>
           </article>
